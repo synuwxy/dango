@@ -1,0 +1,11 @@
+POST http://localhost:8080/ci/docker/build
+Content-Type: application/json
+
+{
+  "repository": "https://gitee.com/synuwxy/event-bus.git",
+  "dockerTag": "test:v2",
+  "type": "java",
+  "branch": "master"
+}
+
+###

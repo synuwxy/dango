@@ -1,0 +1,1 @@
+docker stop dango && docker rm dango

@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+docker:
+  host: 127.0.0.1 # 这里填docker的host地址 必填项
+  port: 2375 # 监听端口
+git:
+  user:
+    name:
+    email:
+  ssh:
+    privateKey:
+    publicKey:
+workspace:
+  prefix: /home
