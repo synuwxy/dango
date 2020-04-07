@@ -17,7 +17,7 @@ public class DockerCiTest {
         DockerBuildParam dockerBuildParam = new DockerBuildParam();
         dockerBuildParam.setRepository("https://gitee.com/synuwxy/event-bus.git");
         dockerBuildParam.setBranch("master");
-        dockerBuildParam.setType(DockerUtil.TYPE_JAVA);
+        dockerBuildParam.setType(DockerUtil.TYPE_MAVEN);
         dockerBuildParam.setDockerTag("test:v1");
         dockerCiService.build(dockerBuildParam);
     }

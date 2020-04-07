@@ -37,7 +37,7 @@ Content-Type: application/json
 {
   "repository": "https://gitee.com/synuwxy/event-bus.git",
   "dockerTag": "test:v2",
-  "type": "java",
+  "type": "maven",
   "branch": "master"
 }
 
