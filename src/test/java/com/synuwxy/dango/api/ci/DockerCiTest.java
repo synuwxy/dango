@@ -1,7 +1,7 @@
 package com.synuwxy.dango.api.ci;
 
 import com.synuwxy.dango.common.utils.DockerUtil;
-import com.synuwxy.dango.controller.ci.DockerBuildParam;
+import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

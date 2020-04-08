@@ -1,4 +1,4 @@
-package com.synuwxy.dango.controller.ci;
+package com.synuwxy.dango.api.ci.model;
 
 import lombok.Data;
 

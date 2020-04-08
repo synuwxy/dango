@@ -1,8 +1,8 @@
 package com.synuwxy.dango.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.synuwxy.dango.api.git.github.GithubService;
+import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
 import com.synuwxy.dango.api.git.github.model.hook.HookInfoDto;
 import com.synuwxy.dango.api.git.github.model.hook.HookInfoModel;
 import com.synuwxy.dango.common.ResultObject;
@@ -36,7 +36,7 @@ public class GithubController {
 
     @PostMapping("/hook/build/{type}")
     public ResultObject<?> hookBuild(@RequestBody String payload, @PathVariable("type") String type) {
-        GitHubHookParam gitHubHookParam = JSONObject.parseObject(payload, GitHubHookParam.class);
+        GithubHookParam gitHubHookParam = JSONObject.parseObject(payload, GithubHookParam.class);
         githubService.hookBuild(gitHubHookParam, type);
         return ResultObject.success();
     }

@@ -27,7 +27,7 @@ sh deploy.sh v0.0.1 # 参数是版本号
 1. 请保证 docker 2375端口 已经打开并开始监听tcp请求
 2. 修改 application.yml 文件将docker host指向自己的机器
 
-> 目前只有一个接口，直接通过git仓库地址构建镜像，只支持公开的springboot仓库
+> 直接通过git仓库地址构建镜像，只支持公开的springboot仓库
 
 例子: 
 ```

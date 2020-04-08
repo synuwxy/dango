@@ -1,5 +1,7 @@
 package com.synuwxy.dango.api.docker;
 
+import com.synuwxy.dango.api.docker.model.ContainerModel;
+
 /**
  * docker服务接口
  * @author wxy
@@ -14,7 +16,7 @@ public interface DockerService {
      */
     void build(String workspace, String type, String tag);
 
-    void run();
+    void run(ContainerModel containerModel);
 
     void push();
 

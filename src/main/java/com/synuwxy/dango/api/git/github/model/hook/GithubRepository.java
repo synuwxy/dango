@@ -1,4 +1,4 @@
-package com.synuwxy.dango.controller;
+package com.synuwxy.dango.api.git.github.model.hook;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.Data;
  * @author wxy
  */
 @Data
-public class GitHubRepository {
+public class GithubRepository {
     private String name;
     @JSONField(name = "clone_url")
     private String cloneUrl;

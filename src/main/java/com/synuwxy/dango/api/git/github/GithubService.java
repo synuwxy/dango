@@ -1,8 +1,16 @@
 package com.synuwxy.dango.api.git.github;
 
-import com.synuwxy.dango.controller.GitHubHookParam;
+import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
 
+/**
+ * @author wxy
+ */
 public interface GithubService {
 
-    void hookBuild(GitHubHookParam payload, String type);
+    /**
+     * 通过hook调度进行构建
+     * @param githubHookParam github hook 参数
+     * @param type 类型
+     */
+    void hookBuild(GithubHookParam githubHookParam, String type);
 }

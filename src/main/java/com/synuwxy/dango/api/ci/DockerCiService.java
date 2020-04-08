@@ -1,6 +1,6 @@
 package com.synuwxy.dango.api.ci;
 
-import com.synuwxy.dango.controller.ci.DockerBuildParam;
+import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 
 /**
  * 使用docker的方式进行 CI 的接口

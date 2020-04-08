@@ -1,6 +1,7 @@
-package com.synuwxy.dango.controller.ci;
+package com.synuwxy.dango.controller.cd;
 
-import com.synuwxy.dango.api.ci.DockerCiService;
+import com.synuwxy.dango.api.cd.DockerCdService;
+import com.synuwxy.dango.api.cd.model.DockerDeployParam;
 import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import com.synuwxy.dango.common.ResultObject;
 import com.synuwxy.dango.common.utils.ParamValidUtils;
@@ -15,19 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
  * @author wxy
  */
 @RestController
-@RequestMapping("/ci/docker")
-public class DockerCiController {
+@RequestMapping("/cd/docker")
+public class DockerCdController {
+    private final DockerCdService dockerCdService;
 
-    private final DockerCiService dockerCiService;
-
-    public DockerCiController(DockerCiService dockerCiService) {
-        this.dockerCiService = dockerCiService;
+    public DockerCdController(DockerCdService dockerCdService) {
+        this.dockerCdService = dockerCdService;
     }
 
-    @PostMapping("/build")
-    public ResultObject<?> build(@Validated @RequestBody DockerBuildParam dockerBuildParam, BindingResult result) {
+    @PostMapping("/deploy")
+    public ResultObject<?> deploy(@Validated @RequestBody DockerDeployParam dockerDeployParam, BindingResult result) {
         ParamValidUtils.dealBindingResult(result);
-        dockerCiService.build(dockerBuildParam);
+        dockerCdService.deploy(dockerDeployParam);
         return ResultObject.success();
     }
 }

@@ -6,7 +6,7 @@ import com.synuwxy.dango.api.docker.DockerService;
 import com.synuwxy.dango.common.config.CommonConfig;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.UUIDUtil;
-import com.synuwxy.dango.controller.GitHubHookParam;
+import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class GithubServiceImpl implements GithubService {
 
     @Async
     @Override
-    public void hookBuild(GitHubHookParam gitHubHookParam, String type) {
+    public void hookBuild(GithubHookParam gitHubHookParam, String type) {
         log.info("GitHub Hook 构建 gitHubHookParam: {}, type: {}", JSONObject.toJSONString(gitHubHookParam), type);
         String name = gitHubHookParam.getRepository().getName();
         String repo = gitHubHookParam.getRepository().getCloneUrl();

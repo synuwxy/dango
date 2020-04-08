@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * @author wxy
+ */
 @AllArgsConstructor
 @Data
 public class HookInfoDto {
