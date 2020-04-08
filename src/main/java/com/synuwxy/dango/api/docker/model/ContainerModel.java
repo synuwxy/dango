@@ -4,7 +4,6 @@ import com.github.dockerjava.api.model.ExposedPort;
 import com.github.dockerjava.api.model.PortBinding;
 import com.github.dockerjava.api.model.Ports;
 import com.github.dockerjava.api.model.Volume;
-import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +25,16 @@ public class ContainerModel {
 
     public List<PortBinding> getPortBindings() {
         List<PortBinding> list = new ArrayList<>();
-        containerPorts.forEach(containerPort -> list.add(PortBinding.parse(containerPort.generator())));
+        containerPorts.forEach(containerPort -> {
+            PortBinding portBinding = new PortBinding(Ports.Binding.bindPort(containerPort.getOutsidePort()), ExposedPort.tcp(containerPort.getInsidePort()));
+            list.add(portBinding);
+        });
         return list;
     }
 
     public List<ExposedPort> getExposedPorts() {
         List<ExposedPort> list = new ArrayList<>();
-        containerPorts.forEach(containerPort -> list.add(ExposedPort.tcp(containerPort.getOutsidePort())));
+        containerPorts.forEach(containerPort -> list.add(ExposedPort.tcp(containerPort.getInsidePort())));
         return list;
     }
 

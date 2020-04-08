@@ -2,7 +2,7 @@ server:
   port: 8080
 
 docker:
-  host: 47.94.111.0 # 这里填docker的host地址 必填项
+  host: localhost # 这里填docker的host地址 必填项
   port: 2375 # 监听端口
 
 workspace:

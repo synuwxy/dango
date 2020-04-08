@@ -2,11 +2,10 @@ package com.synuwxy.dango.api.docker;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.BuildImageCmd;
+import com.github.dockerjava.api.command.BuildImageResultCallback;
 import com.github.dockerjava.api.command.CreateContainerCmd;
-import com.github.dockerjava.api.model.ExposedPort;
+import com.github.dockerjava.api.model.BuildResponseItem;
 import com.github.dockerjava.api.model.HostConfig;
-import com.github.dockerjava.api.model.Ports;
-import com.github.dockerjava.core.command.BuildImageResultCallback;
 import com.synuwxy.dango.api.docker.model.ContainerModel;
 import com.synuwxy.dango.common.utils.DockerUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -34,14 +33,13 @@ public class DockerServiceImpl implements DockerService {
         log.info("生成Dockerfile workspace: {}, type: {}, tag: {}", workspace, type, tag);
         DockerUtil.generatorDockerfile(workspace, type);
         File dir = new File(workspace);
-//        BuildImageResultCallback callback = new BuildImageResultCallback() {
-//            @Override
-//            public void onNext(BuildResponseItem item) {
-//                log.info("[docker log] {}", item);
-//                super.onNext(item);
-//            }
-//        };
-        BuildImageResultCallback callback = new BuildImageResultCallback();
+        com.github.dockerjava.api.command.BuildImageResultCallback callback = new BuildImageResultCallback() {
+            @Override
+            public void onNext(BuildResponseItem item) {
+                log.info("[docker log] {}", item);
+                super.onNext(item);
+            }
+        };
         Set<String> tags = new HashSet<>();
         tags.add(tag);
         log.info("构建镜像");
@@ -55,10 +53,8 @@ public class DockerServiceImpl implements DockerService {
         createContainerCmd.withName(containerModel.getContainerName());
 
         if (!containerModel.getPortBindings().isEmpty()) {
-//            createContainerCmd.withHostConfig(newHostConfig().withPortBindings(containerModel.getPortBindings()).);
-            Ports ports = new Ports();
-            ports.bind(ExposedPort.tcp(10011), new Ports.Binding("0.0.0.0", "8080"));
-            createContainerCmd.withHostConfig(HostConfig.newHostConfig().withPortBindings(ports));
+            createContainerCmd.withExposedPorts(containerModel.getExposedPorts());
+            createContainerCmd.withHostConfig(HostConfig.newHostConfig().withPortBindings(containerModel.getPortBindings()));
         }
 
         if (!containerModel.getVolumes().isEmpty()) {
