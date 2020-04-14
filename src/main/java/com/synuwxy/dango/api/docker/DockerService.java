@@ -3,6 +3,7 @@ package com.synuwxy.dango.api.docker;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import com.synuwxy.dango.api.docker.model.ContainerModel;
+import com.synuwxy.dango.api.docker.model.ContainerState;
 
 import java.util.List;
 
@@ -41,6 +42,12 @@ public interface DockerService {
      * @param tag 镜像名称 (name:tag)
      */
     void pull(String tag);
+
+    /**
+     * stop 容器
+     * @param containerId 容器id
+     */
+    void stopContainer(String containerId);
 
     /**
      * 删除容器
@@ -87,6 +94,15 @@ public interface DockerService {
      * @return 容器对象，可能为null
      */
     Container searchContainer(String name);
+
+    /**
+     * 搜索容器，单个
+     *
+     * @param name 容器名称 (name:tag)
+     * @param status 容器状态 {@link ContainerState}
+     * @return 容器对象，可能为null
+     */
+    Container searchContainer(String name, String status);
 
     /**
      * 容器打上标签

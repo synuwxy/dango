@@ -25,3 +25,31 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:8080/cd/docker/slideDeploy
+Content-Type: application/json
+
+{
+  "containerName": "test",
+  "imageName": "event-bus:v1",
+  "containerPorts": [
+    {
+      "insidePort": 8080,
+      "outsidePort": 10011
+    }
+  ],
+  "containerVolumes": [
+    {
+      "insidePath": "/home",
+      "outsidePath": "/home"
+    }
+  ],
+  "ContainerEnv": [
+    {
+      "key": "envKey",
+      "value": "envValue"
+    }
+  ]
+}
+
+###

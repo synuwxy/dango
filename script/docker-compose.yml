@@ -1,0 +1,11 @@
+version: '3'
+services:
+  dango:
+#    image: synuwxy/dango:latest
+    build: .
+    container_name: dango
+    restart: always
+    ports:
+      - "10010:8080"
+    entrypoint:
+      - MAVEN_NEXUS_REPO=http://maven.aliyun.com/nexus/content/groups/public/

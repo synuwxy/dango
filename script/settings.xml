@@ -1,0 +1,55 @@
+<settings>
+    <servers>
+        <server>
+             <id>nexus-releases</id>
+             <username>${env.MAVEN_NEXUS_USERNAME}</username>
+             <password>${env.MAVEN_NEXUS_PASSWORD}</password>
+         </server>
+         <server>
+             <id>nexus-snapshots</id>
+             <username>${env.MAVEN_NEXUS_USERNAME}</username>
+             <password>${env.MAVEN_NEXUS_PASSWORD}</password>
+         </server>
+    </servers>
+    <mirrors>
+        <mirror>
+            <id>nexus</id>
+            <mirrorOf>*</mirrorOf>
+            <url>${env.MAVEN_NEXUS_REPO}</url>
+        </mirror>
+        <mirror>
+            <id>alimaven</id>
+            <name>aliyun maven</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <mirrorOf>central</mirrorOf>   
+        </mirror>
+    </mirrors>
+    <profiles>
+        <profile>
+            <id>nexus</id>
+            <properties>
+                <nexus.releases>${env.MAVEN_NEXUS_REPO_RELEASE}</nexus.releases>
+                <nexus.snapshots>${env.MAVEN_NEXUS_REPO_SNAPSHOTS}</nexus.snapshots>
+            </properties>
+            <repositories>
+                <repository>
+                    <id>central</id>
+                    <url>http://central</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>central</id>
+                    <url>http://central</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>nexus</activeProfile>
+    </activeProfiles>
+</settings>

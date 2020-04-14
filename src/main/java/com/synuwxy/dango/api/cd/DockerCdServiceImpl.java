@@ -1,12 +1,10 @@
 package com.synuwxy.dango.api.cd;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.model.Container;
 import com.synuwxy.dango.api.cd.model.DockerDeployParam;
 import com.synuwxy.dango.api.docker.DockerService;
-import com.synuwxy.dango.api.docker.model.ContainerEnv;
-import com.synuwxy.dango.api.docker.model.ContainerModel;
-import com.synuwxy.dango.api.docker.model.ContainerPort;
-import com.synuwxy.dango.api.docker.model.ContainerVolume;
+import com.synuwxy.dango.api.docker.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -53,13 +51,15 @@ public class DockerCdServiceImpl implements DockerCdService {
 
     @Override
     public void slideDeploy(DockerDeployParam dockerDeployParam) {
-        Container container = dockerService.searchContainer(dockerDeployParam.getContainerName());
-        if (null != container) {
-            dockerService.removeContainer(container.getId());
-        }
+        cleanContainer(dockerDeployParam.getContainerName());
         deploy(dockerDeployParam);
     }
 
+    /**
+     * 校验network类型
+     * @param networkMode network类型
+     * @return 校验是否成功
+     */
     private boolean verifyNetworkMode(String networkMode) {
         List<String> networks = Arrays.asList("bridge", "host", "none");
         for (String mode:networks) {
@@ -68,5 +68,22 @@ public class DockerCdServiceImpl implements DockerCdService {
             }
         }
         return false;
+    }
+
+    /**
+     * 清除掉现有的容器
+     * @param containerName 容器名称
+     */
+    private void cleanContainer(String containerName) {
+        log.info("清除容器 name: {}", containerName);
+        Container container = dockerService.searchContainer(containerName);
+        if (null != container) {
+            log.info("容器已存在 container: {}", JSONObject.toJSONString(container));
+            // 如果是已经在运行的容器，需要先stop才能remove
+            if (ContainerState.RUNNING.equals(container.getState())) {
+                dockerService.stopContainer(container.getId());
+            }
+            dockerService.removeContainer(container.getId());
+        }
     }
 }
