@@ -39,6 +39,7 @@ public class DockerCiServiceImpl implements DockerCiService {
             codeBuilder.cleanBuild(dockerBuildParam.getRepository(), dockerBuildParam.getBranch(), dockerBuildParam.getType(), workspace);
             log.info("docker 构建");
             dockerService.build(workspace, dockerBuildParam.getType(), dockerBuildParam.getDockerTag());
+            FileUtil.delete(workspace);
         } catch (Exception e) {
             log.error("DockerCI 构建失败 message: {}", e.getMessage());
         }

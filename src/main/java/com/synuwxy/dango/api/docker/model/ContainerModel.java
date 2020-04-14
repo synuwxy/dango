@@ -12,8 +12,9 @@ import java.util.List;
  * @author wxy
  */
 public class ContainerModel {
-    private String containerName;
-    private String imageName;
+    private final String containerName;
+    private final String imageName;
+    private String networkMode = "none";
     private List<ContainerPort> containerPorts = new ArrayList<>();
     private List<ContainerVolume> containerVolumes = new ArrayList<>();
     private List<ContainerEnv> containerEnvs = new ArrayList<>();
@@ -80,5 +81,13 @@ public class ContainerModel {
 
     public void setContainerEnvs(List<ContainerEnv> containerEnvs) {
         this.containerEnvs = containerEnvs;
+    }
+
+    public String getNetWorkMode() {
+        return networkMode;
+    }
+
+    public void setNetWorkMode(String networkMode) {
+        this.networkMode = networkMode;
     }
 }

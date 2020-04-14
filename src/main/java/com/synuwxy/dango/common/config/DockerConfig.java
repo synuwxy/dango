@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author wxy
+ */
 @Configuration
 public class DockerConfig {
 
@@ -17,7 +20,6 @@ public class DockerConfig {
     @Bean
     public DockerClient dockerClientBean() {
         String serverUrl = "tcp://" + dockerHost + ":" + dockerPort;
-        
         return DockerClientBuilder
                 .getInstance(serverUrl).build();
     }

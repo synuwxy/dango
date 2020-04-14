@@ -13,6 +13,7 @@ public interface CodeBuilder {
      * @param repo git repo 地址
      * @param branch 分支
      * @param type 类型
+     * @param workspace 工作目录
      * @return 构建产物
      * @throws Exception 异常
      */

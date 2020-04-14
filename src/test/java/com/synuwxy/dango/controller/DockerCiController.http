@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "repository": "https://gitee.com/synuwxy/event-bus.git",
-  "dockerTag": "test:v2",
+  "dockerTag": "event-bus:v1",
   "type": "maven",
   "branch": "master"
 }

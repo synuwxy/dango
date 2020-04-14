@@ -16,7 +16,7 @@ public class ResultObject<T> implements Serializable {
 
     private T data;
 
-    public final static String ERROR = "1";
+    public final static String ERROR = "-1";
 
     public final static String SUCCESS = "0";
 
@@ -28,7 +28,6 @@ public class ResultObject<T> implements Serializable {
         this.message = message;
         this.data = data;
     }
-
 
     public static <T> ResultObject<T> instance(String status, String message, T data) {
         return new ResultObject<>(status, message, data);

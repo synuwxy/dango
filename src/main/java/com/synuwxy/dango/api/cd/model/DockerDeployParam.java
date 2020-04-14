@@ -17,6 +17,7 @@ public class DockerDeployParam {
     private String containerName;
     @NotBlank(message = "镜像名称不能为空")
     private String imageName;
+    private String networkMode;
     private List<ContainerPort> containerPorts;
     private List<ContainerVolume> containerVolumes;
     private List<ContainerEnv> containerEnvs;

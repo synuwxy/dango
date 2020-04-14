@@ -4,6 +4,9 @@ import com.synuwxy.dango.common.ResultObject;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+/**
+ * @author wxy
+ */
 @ControllerAdvice
 public class VerifyExceptionHandler {
 

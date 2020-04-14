@@ -7,15 +7,15 @@ import lombok.Data;
  */
 @Data
 public class ContainerVolume {
-    private String insideVolume;
-    private String outsideVolume;
+    private String insidePath;
+    private String outsidePath;
 
     public ContainerVolume(String insideVolume, String outsideVolume) {
-        this.insideVolume = insideVolume;
-        this.outsideVolume = outsideVolume;
+        this.insidePath = insideVolume;
+        this.outsidePath = outsideVolume;
     }
 
     public String generator() {
-        return this.outsideVolume + ":" + this.insideVolume;
+        return this.outsidePath + ":" + this.insidePath;
     }
 }

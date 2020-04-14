@@ -1,11 +1,10 @@
 package com.synuwxy.dango.api.git.github;
 
 import com.alibaba.fastjson.JSONObject;
-import com.synuwxy.dango.api.ci.CodeBuilder;
-import com.synuwxy.dango.api.docker.DockerService;
-import com.synuwxy.dango.common.config.CommonConfig;
-import com.synuwxy.dango.common.utils.FileUtil;
-import com.synuwxy.dango.common.utils.UUIDUtil;
+import com.synuwxy.dango.api.cd.DockerCdService;
+import com.synuwxy.dango.api.cd.model.DockerDeployParam;
+import com.synuwxy.dango.api.ci.DockerCiService;
+import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -15,37 +14,53 @@ import org.springframework.stereotype.Service;
 @Service
 public class GithubServiceImpl implements GithubService {
 
-    private final DockerService dockerService;
+    private final DockerCiService dockerCiService;
 
-    private final String GITHUB_WORKSPACE;
+    private final DockerCdService dockerCdService;
 
-    private final CodeBuilder codeBuilder;
-
-
-    public GithubServiceImpl(DockerService dockerService, CodeBuilder codeBuilder, CommonConfig commonConfig) {
-        this.dockerService = dockerService;
-        this.codeBuilder = codeBuilder;
-        this.GITHUB_WORKSPACE = commonConfig.getWorkspacePrefix() + "/github/workspace";
+    public GithubServiceImpl(DockerCiService dockerCiService, DockerCdService dockerCdService) {
+        this.dockerCiService = dockerCiService;
+        this.dockerCdService = dockerCdService;
     }
 
     @Async
     @Override
-    public void hookBuild(GithubHookParam gitHubHookParam, String type) {
-        log.info("GitHub Hook 构建 gitHubHookParam: {}, type: {}", JSONObject.toJSONString(gitHubHookParam), type);
-        String name = gitHubHookParam.getRepository().getName();
-        String repo = gitHubHookParam.getRepository().getCloneUrl();
-        String branch = gitHubHookParam.getRepository().getDefaultBranch();
-        String baseTag = "synuwxy";
-        String workspace = GITHUB_WORKSPACE + "/" + UUIDUtil.generatorId();
-        FileUtil.mkdir(workspace);
-        try {
-            log.info("编译代码");
-            codeBuilder.cleanBuild(repo, branch, type, workspace);
-            log.info("GitHub Hook 构建");
-            dockerService.build(workspace, type, baseTag + "/" + name);
-        } catch (Exception e) {
-            log.error("GitHub Hook 构建失败 message: {}", e.getMessage());
-        }
+    public void hookBuild(GithubHookParam githubHookParam, String type) {
+        log.info("GitHub Hook 构建 gitHubHookParam: {}, type: {}", JSONObject.toJSONString(githubHookParam), type);
+        String name = githubHookParam.getRepository().getName();
+        String repository = githubHookParam.getRepository().getCloneUrl();
+        String branch = githubHookParam.getRepository().getDefaultBranch();
+        String dockerTag = "synuwxy/" + name;
+        build(repository, dockerTag, type, branch);
     }
 
+    private void build(String repository, String dockerTag, String type, String branch) {
+        DockerBuildParam dockerBuildParam = new DockerBuildParam();
+        dockerBuildParam.setRepository(repository);
+        dockerBuildParam.setDockerTag(dockerTag);
+        dockerBuildParam.setType(type);
+        dockerBuildParam.setBranch(branch);
+        dockerCiService.build(dockerBuildParam);
+    }
+
+    @Async
+    @Override
+    public void hookDeploy(GithubHookParam githubHookParam, String type) {
+        String name = githubHookParam.getRepository().getName();
+        String repository = githubHookParam.getRepository().getCloneUrl();
+        String branch = githubHookParam.getRepository().getDefaultBranch();
+        String dockerTag = "synuwxy/" + name;
+        String networkMode = "host";
+
+        build(repository, dockerTag, type, branch);
+        deploy(dockerTag, name, networkMode);
+    }
+
+    private void deploy(String imageName, String containerName, String networkMode) {
+        DockerDeployParam dockerDeployParam = new DockerDeployParam();
+        dockerDeployParam.setImageName(imageName);
+        dockerDeployParam.setContainerName(containerName);
+        dockerDeployParam.setNetworkMode(networkMode);
+        dockerCdService.slideDeploy(dockerDeployParam);
+    }
 }

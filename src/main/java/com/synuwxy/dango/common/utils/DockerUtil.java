@@ -8,6 +8,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * @author wxy
+ */
 public class DockerUtil {
 
     public final static String TYPE_MAVEN = "maven";

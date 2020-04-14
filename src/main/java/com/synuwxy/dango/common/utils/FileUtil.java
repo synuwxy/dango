@@ -6,6 +6,9 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * @author wxy
+ */
 @Slf4j
 public class FileUtil {
 
@@ -39,14 +42,6 @@ public class FileUtil {
 
     public static void delete(String path) throws IOException {
         File file = new File(path);
-        if (!file.exists()) {
-            return;
-        }
-        if (file.isFile()) {
-            if (!file.delete()) {
-                throw new RuntimeException("文件删除失败");
-            }
-        }
         FileUtils.deleteDirectory(file);
     }
 }

@@ -30,4 +30,11 @@ public class DockerCdController {
         dockerCdService.deploy(dockerDeployParam);
         return ResultObject.success();
     }
+
+    @PostMapping("/slideDeploy")
+    public ResultObject<?> slideDeploy(@Validated @RequestBody DockerDeployParam dockerDeployParam, BindingResult result) {
+        ParamValidUtils.dealBindingResult(result);
+        dockerCdService.slideDeploy(dockerDeployParam);
+        return ResultObject.success();
+    }
 }
