@@ -6,4 +6,4 @@ docker:
   port: 2375 # 监听端口
 
 workspace:
-  prefix: /home
+  prefix: /home # 工作目录前缀，需要写入权限
