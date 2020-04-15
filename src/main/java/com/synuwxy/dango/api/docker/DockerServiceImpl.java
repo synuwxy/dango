@@ -2,12 +2,11 @@ package com.synuwxy.dango.api.docker;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.command.BuildImageCmd;
-import com.github.dockerjava.api.command.BuildImageResultCallback;
-import com.github.dockerjava.api.command.CreateContainerCmd;
-import com.github.dockerjava.api.command.PullImageResultCallback;
+import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.*;
 import com.synuwxy.dango.api.docker.model.ContainerModel;
+import com.synuwxy.dango.api.docker.model.SearchContainerParam;
+import com.synuwxy.dango.api.docker.model.SearchImageParam;
 import com.synuwxy.dango.common.utils.DockerUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -119,8 +118,8 @@ public class DockerServiceImpl implements DockerService {
         log.info("查询镜像 tag: {}", tag);
         String str = ":";
         if (!tag.contains(str)) {
-            log.info("填充镜像全称 tag: {}", tag);
             tag += ":latest";
+            log.info("填充镜像全称 tag: {}", tag);
         }
         // 筛选服务器上的镜像
         List<Image> images = dockerClient.listImagesCmd().withImageNameFilter(tag).exec();
@@ -132,9 +131,17 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
-    public List<Image> searchImages(String tag) {
-        log.info("查询镜像列表 tag: {}", tag);
-        return dockerClient.listImagesCmd().withImageNameFilter(tag).exec();
+    public List<Image> searchImages(SearchImageParam searchImageParam) {
+        log.info("查询镜像列表 searchImageParam: {}", JSONObject.toJSONString(searchImageParam));
+        ListImagesCmd listImagesCmd = dockerClient.listImagesCmd();
+        if (null != searchImageParam.getImageName()) {
+            listImagesCmd.withImageNameFilter(searchImageParam.getImageName());
+        }
+        List<String> labels = searchImageParam.getLabels();
+        if (null != labels && labels.size() > 0) {
+            labels.forEach(listImagesCmd::withLabelFilter);
+        }
+        return listImagesCmd.exec();
     }
 
     @Override
@@ -151,24 +158,24 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
-    public Container searchContainer(String name, String status) {
-        log.info("查询容器 name: {}, status: {}", name, status);
-        List<Container> containers = dockerClient.listContainersCmd()
-                .withNameFilter(Collections.singleton(name))
-                .withStatusFilter(Collections.singleton(status))
-                .exec();
+    public List<Container> searchContainers(SearchContainerParam searchContainerParam) {
+        log.info("查询容器列表 searchContainerParam: {}", JSONObject.toJSONString(searchContainerParam));
+        ListContainersCmd listContainersCmd = dockerClient.listContainersCmd();
 
-        if (containers.isEmpty()) {
-            log.info("查询结果为空");
-            return null;
+        if (null != searchContainerParam.getContainerId()) {
+            listContainersCmd.withIdFilter(Collections.singleton(searchContainerParam.getContainerId()));
         }
-        return containers.get(0);
-    }
+        if (null != searchContainerParam.getContainerName()) {
+            listContainersCmd.withNameFilter(Collections.singleton(searchContainerParam.getContainerName()));
+        }
+        if (null != searchContainerParam.getLabels() && searchContainerParam.getLabels().size() > 0) {
+            listContainersCmd.withLabelFilter(searchContainerParam.getLabels());
+        }
+        if (null != searchContainerParam.getStatus() && searchContainerParam.getStatus().size() > 0) {
+            listContainersCmd.withStatusFilter(searchContainerParam.getStatus());
+        }
 
-    @Override
-    public List<Container> searchContainers(String name) {
-        log.info("查询容器列表 name: {}", name);
-        return dockerClient.listContainersCmd().withNameFilter(Collections.singleton(name)).exec();
+        return listContainersCmd.exec();
     }
 
     @Override

@@ -1,0 +1,34 @@
+POST http://localhost:8080/docker/push/image
+Content-Type: application/json
+
+{
+  "tag": "synuwxy/dango:latest"
+}
+
+###
+POST http://localhost:8080/docker/pull/image
+Content-Type: application/json
+
+{
+  "tag": "synuwxy/dango:latest"
+}
+
+###
+GET http://localhost:8080/docker/search/images?tag=synuwxy/dango
+Accept: application/json
+
+###
+GET http://localhost:8080/docker/search/image?tag=synuwxy/dango
+Accept: application/json
+
+###
+GET http://localhost:8080/docker/search/containers?containerName=test
+Accept: application/json
+
+###
+GET http://localhost:8080/docker/search/container?name=test
+Accept: application/json
+
+###
+
+

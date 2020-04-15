@@ -9,13 +9,4 @@ import lombok.Data;
 public class ContainerPort {
     private int insidePort;
     private int outsidePort;
-
-    public ContainerPort(int insidePort, int outsidePort) {
-        this.insidePort = insidePort;
-        this.outsidePort = outsidePort;
-    }
-
-    public String generator() {
-        return this.outsidePort + ":" + this.insidePort;
-    }
 }

@@ -3,7 +3,8 @@ package com.synuwxy.dango.api.docker;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import com.synuwxy.dango.api.docker.model.ContainerModel;
-import com.synuwxy.dango.api.docker.model.ContainerState;
+import com.synuwxy.dango.api.docker.model.SearchContainerParam;
+import com.synuwxy.dango.api.docker.model.SearchImageParam;
 
 import java.util.List;
 
@@ -74,18 +75,18 @@ public interface DockerService {
     /**
      * 搜索镜像列表
      *
-     * @param tag 镜像名称 (name:tag)
+     * @param searchImageParam 镜像查询参数对象
      * @return 镜像列表，可能为 empty
      */
-    List<Image> searchImages(String tag);
+    List<Image> searchImages(SearchImageParam searchImageParam);
 
     /**
      * 搜索容器列表
      *
-     * @param name 容器名称
+     * @param searchContainerParam 容器查询参数对象
      * @return 容器列表，可能为 empty
      */
-    List<Container> searchContainers(String name);
+    List<Container> searchContainers(SearchContainerParam searchContainerParam);
 
     /**
      * 搜索容器，单个
@@ -94,15 +95,6 @@ public interface DockerService {
      * @return 容器对象，可能为null
      */
     Container searchContainer(String name);
-
-    /**
-     * 搜索容器，单个
-     *
-     * @param name 容器名称 (name:tag)
-     * @param status 容器状态 {@link ContainerState}
-     * @return 容器对象，可能为null
-     */
-    Container searchContainer(String name, String status);
 
     /**
      * 容器打上标签

@@ -45,4 +45,11 @@ public class ResultObject<T> implements Serializable {
         resultObject.setStatus(SUCCESS);
         return resultObject;
     }
+
+    public static <T> ResultObject<T> success(T data) {
+        ResultObject<T> resultObject = new ResultObject<>();
+        resultObject.setStatus(SUCCESS);
+        resultObject.setData(data);
+        return resultObject;
+    }
 }
