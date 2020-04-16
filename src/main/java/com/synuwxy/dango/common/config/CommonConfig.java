@@ -13,4 +13,7 @@ public class CommonConfig {
 
     @Value("${workspace.prefix}")
     private String workspacePrefix;
+
+    @Value("${docker.dockerfile.workspace}")
+    private String dockerfileWorkspace;
 }

@@ -33,13 +33,11 @@ public class DockerServiceImpl implements DockerService {
     @Override
     public void build(String workspace, String type, String tag) {
         log.info("编译镜像");
-        log.info("生成Dockerfile workspace: {}, type: {}, tag: {}", workspace, type, tag);
-        DockerUtil.generatorDockerfile(workspace, type);
         File dir = new File(workspace);
         BuildImageResultCallback callback = new BuildImageResultCallback() {
             @Override
             public void onNext(BuildResponseItem item) {
-                log.info("[docker log] {}", item);
+                log.info("[docker log] {}", item.getStream());
                 super.onNext(item);
             }
         };
@@ -88,7 +86,7 @@ public class DockerServiceImpl implements DockerService {
         PullImageResultCallback pullImageResultCallback = new PullImageResultCallback() {
             @Override
             public void onNext(PullResponseItem item) {
-                log.info("[docker log] {}", item);
+                log.info("[docker log] {}", item.getStream());
                 super.onNext(item);
             }
         };

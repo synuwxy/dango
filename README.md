@@ -30,6 +30,13 @@ sh deploy.sh v0.0.1 # 参数是版本号
 
 服务启动后可见swagger接口文档 访问 http://{ip}:{port}/swagger-ui.html 
 样例见测试包
+<br/>
+自定义dockerfile:
+
+> 默认dockerfile存放地址是 /home/stack 可以通过挂载映射到宿主机的某个路径上，容器内的默认存放地址可以通过环境变量 docker_dockerfile_workspace 配置
+> dockerfile的读取逻辑是 /{type}/Dockerfile，这个type是构建接口所需的字段，系统会读取文件夹下的dockerfile进行构建，这个字段也可以在 DockerfileController 查询得到  
+
+<br/>
 
 目前具备的功能
 
@@ -38,3 +45,5 @@ sh deploy.sh v0.0.1 # 参数是版本号
 * 由已有镜像启动容器时替换之前的容器
 * 配置 github WebHook 实现推送代码直接构建镜像
 * 配置 github WebHook 实现推送代码直接更新容器(容器网络使用host模式)
+* 查询 docker 镜像、容器信息
+* 查询 dockerfile 类型

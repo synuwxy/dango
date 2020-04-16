@@ -5,6 +5,8 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wxy
@@ -18,10 +20,30 @@ public class FileUtil {
             if (!dir.mkdirs()) {
                 throw new RuntimeException("创建执行文件夹失败");
             }
-            if (!dir.setWritable(true, false)) {
-                throw new RuntimeException("设置文件夹权限失败");
+        }
+    }
+
+    /**
+     * 获取路径下所有的目录
+     * @param path 路径
+     * @return 目录列表
+     */
+    public static List<File> getDirectories(String path) {
+        List<File> directories = new ArrayList<>();
+        File source = new File(path);
+        if (!source.exists() || !source.isDirectory()) {
+            return directories;
+        }
+        File[] files = source.listFiles();
+        if (null == files) {
+            return directories;
+        }
+        for (File file: files) {
+            if (file.isDirectory()) {
+                directories.add(file);
             }
         }
+        return directories;
     }
 
     public static boolean assertionExists(String path) {

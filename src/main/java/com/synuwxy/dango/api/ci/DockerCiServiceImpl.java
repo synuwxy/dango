@@ -1,6 +1,7 @@
 package com.synuwxy.dango.api.ci;
 
 import com.synuwxy.dango.api.docker.DockerService;
+import com.synuwxy.dango.api.docker.DockerfileService;
 import com.synuwxy.dango.common.config.CommonConfig;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.UUIDUtil;
@@ -20,12 +21,15 @@ public class DockerCiServiceImpl implements DockerCiService {
 
     private final CodeBuilder codeBuilder;
 
+    private final DockerfileService dockerfileService;
+
     private final DockerService dockerService;
 
-    public DockerCiServiceImpl(CodeBuilder codeBuilder, DockerService dockerService, CommonConfig commonConfig) {
+    public DockerCiServiceImpl(CodeBuilder codeBuilder, DockerService dockerService, CommonConfig commonConfig, DockerfileService dockerfileService) {
         this.codeBuilder = codeBuilder;
         this.dockerService = dockerService;
         this.DOCKER_CI_WORKSPACE = commonConfig.getWorkspacePrefix() + "/docker/workspace";
+        this.dockerfileService = dockerfileService;
     }
 
 
@@ -37,6 +41,8 @@ public class DockerCiServiceImpl implements DockerCiService {
         try {
             log.info("编译代码");
             codeBuilder.cleanBuild(dockerBuildParam.getRepository(), dockerBuildParam.getBranch(), dockerBuildParam.getType(), workspace);
+            log.info("生成dockerfile");
+            dockerfileService.generatorDockerfile(workspace, dockerBuildParam.getType());
             log.info("docker 构建");
             dockerService.build(workspace, dockerBuildParam.getType(), dockerBuildParam.getDockerTag());
             FileUtil.delete(workspace);

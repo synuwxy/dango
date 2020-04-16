@@ -4,6 +4,8 @@ server:
 docker:
   host: localhost # 这里填docker的host地址 必填项
   port: 2375 # 监听端口
+  dockerfile:
+    workspace: /home/stack
 
 workspace:
   prefix: /home # 工作目录前缀，需要写入权限

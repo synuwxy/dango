@@ -1,4 +1,4 @@
-package com.synuwxy.dango.controller;
+package com.synuwxy.dango.controller.docker;
 
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
@@ -62,7 +62,7 @@ public class DockerController {
     @PostMapping("/push/image")
     public ResultObject<?> pushImage(@RequestBody @Validated PushImageParam pushImageParam, BindingResult result) {
         ParamValidUtils.dealBindingResult(result);
-        dockerService.pull(pushImageParam.getTag());
+        dockerService.push(pushImageParam.getTag());
         return ResultObject.success();
     }
 }
