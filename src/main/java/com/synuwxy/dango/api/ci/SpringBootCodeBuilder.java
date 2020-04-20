@@ -28,9 +28,9 @@ public class SpringBootCodeBuilder implements CodeBuilder {
     }
 
     @Override
-    public File build(String repo, String branch, String type, String workspace) throws Exception {
+    public File build(String repo, String branch, String workspace) throws Exception {
         FileUtil.mkdir(workspace);
-        log.info("clone 代码 repo: {}, branch: {}, type: {}", repo, branch, type);
+        log.info("clone 代码 repo: {}, branch: {}", repo, branch);
         boolean status = GitUtil.clone(repo, branch, workspace);
         if (!status) {
             throw new RuntimeException("clone 失败");
@@ -42,7 +42,7 @@ public class SpringBootCodeBuilder implements CodeBuilder {
     @Override
     public void cleanBuild(String repo, String branch, String type, String target) throws Exception {
         String workspace = this.CODE_BUILD_WORKSPACE + "/" + UUIDUtil.generatorId();
-        File jar = build(repo, branch, type, workspace);
+        File jar = build(repo, branch, workspace);
         FileCopyUtils.copy(jar, new File(target + "/" + jar.getName()));
         FileUtil.delete(workspace);
     }

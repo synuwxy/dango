@@ -1,11 +1,11 @@
 package com.synuwxy.dango.api.ci;
 
+import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import com.synuwxy.dango.api.docker.DockerService;
 import com.synuwxy.dango.api.docker.DockerfileService;
 import com.synuwxy.dango.common.config.CommonConfig;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.UUIDUtil;
-import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,6 @@ public class DockerCiServiceImpl implements DockerCiService {
         this.DOCKER_CI_WORKSPACE = commonConfig.getWorkspacePrefix() + "/docker/workspace";
         this.dockerfileService = dockerfileService;
     }
-
 
     @Async
     @Override

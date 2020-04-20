@@ -1,12 +1,12 @@
 package com.synuwxy.dango.api.script;
 
+import com.alibaba.fastjson.JSONObject;
+import com.synuwxy.dango.api.code.CodeTypeFinder;
+import com.synuwxy.dango.api.code.model.CodeType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * @author wxy
@@ -17,8 +17,11 @@ public class SpringBootBuilder implements ScriptBuilder {
 
     private final ScriptHandler scriptHandler;
 
-    public SpringBootBuilder(ScriptHandler scriptHandler) {
+    private final CodeTypeFinder codeTypeFinder;
+
+    public SpringBootBuilder(ScriptHandler scriptHandler, CodeTypeFinder codeTypeFinder) {
         this.scriptHandler = scriptHandler;
+        this.codeTypeFinder = codeTypeFinder;
     }
 
     @Override
@@ -28,16 +31,18 @@ public class SpringBootBuilder implements ScriptBuilder {
         if (!scriptHandler.run(workspace, command)) {
             throw new RuntimeException("构建失败 type: SpringBoot");
         }
-        return findJar(workspace);
+        return findProduct(workspace);
     }
 
-    private File findJar(String src) {
-        src +=  "/target";
-        log.info("搜索jar包 workspace: {}", src);
-        Collection<File> collection = FileUtils.listFiles(new File(src), new String[] {"jar"}, false);
-        if (collection.isEmpty()) {
-            throw new RuntimeException("构建失败 type: SpringBoot, message: jar包不存在");
+    private File findProduct(String src) {
+        CodeType codeType = codeTypeFinder.findCodeType(src);
+        log.info("产出物 codeType: {}", JSONObject.toJSONString(codeType));
+        String productParentPath = codeType.getProductParentPath();
+        String productName = codeType.getProductName();
+        File product = new File(productParentPath + "/" + productName);
+        if (!product.exists()) {
+            throw new RuntimeException("编译产出物不存在");
         }
-        return new ArrayList<>(collection).get(0);
+        return product;
     }
 }

@@ -12,12 +12,11 @@ public interface CodeBuilder {
      * 编译
      * @param repo git repo 地址
      * @param branch 分支
-     * @param type 类型
      * @param workspace 工作目录
      * @return 构建产物
      * @throws Exception 异常
      */
-    File build(String repo, String branch, String type, String workspace) throws Exception;
+    File build(String repo, String branch, String workspace) throws Exception;
 
     /**
      * 编译代码，将产出物copy到目标目录并删除编译目录

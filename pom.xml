@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.synuwxy</groupId>
     <artifactId>dango</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.13-SNAPSHOT</version>
     <name>dango</name>
     <description>Demo project for Spring Boot</description>
 
@@ -58,8 +58,13 @@
             <artifactId>swagger-spring-boot-starter</artifactId>
             <version>1.7.0.RELEASE</version>
         </dependency>
+        <!-- pom 解析工具 -->
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.6.3</version>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>dango</finalName>
         <plugins>
