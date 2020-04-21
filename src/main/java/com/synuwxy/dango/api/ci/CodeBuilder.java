@@ -1,5 +1,7 @@
 package com.synuwxy.dango.api.ci;
 
+import com.synuwxy.dango.api.git.model.GitCloneParam;
+
 import java.io.File;
 
 /**
@@ -10,21 +12,19 @@ public interface CodeBuilder {
 
     /**
      * 编译
-     * @param repo git repo 地址
-     * @param branch 分支
+     * @param gitCloneParam git clone 所需入参
      * @param workspace 工作目录
      * @return 构建产物
      * @throws Exception 异常
      */
-    File build(String repo, String branch, String workspace) throws Exception;
+    File build(GitCloneParam gitCloneParam, String workspace) throws Exception;
 
     /**
      * 编译代码，将产出物copy到目标目录并删除编译目录
-     * @param repo git repo 地址
-     * @param branch 分支
+     * @param gitCloneParam git clone 所需入参
      * @param type 类型
      * @param target 目标目录
      * @throws Exception 异常
      */
-    void cleanBuild(String repo, String branch, String type, String target) throws Exception;
+    void cleanBuild(GitCloneParam gitCloneParam, String type, String target) throws Exception;
 }

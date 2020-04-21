@@ -5,6 +5,7 @@ import com.synuwxy.dango.api.cd.DockerCdService;
 import com.synuwxy.dango.api.cd.model.DockerDeployParam;
 import com.synuwxy.dango.api.ci.DockerCiService;
 import com.synuwxy.dango.api.ci.model.DockerBuildParam;
+import com.synuwxy.dango.api.git.model.GitCloneParam;
 import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -36,10 +37,13 @@ public class GithubServiceImpl implements GithubService {
 
     private void build(String repository, String dockerTag, String type, String branch) {
         DockerBuildParam dockerBuildParam = new DockerBuildParam();
-        dockerBuildParam.setRepository(repository);
         dockerBuildParam.setDockerTag(dockerTag);
         dockerBuildParam.setType(type);
-        dockerBuildParam.setBranch(branch);
+
+        GitCloneParam gitCloneParam = new GitCloneParam();
+        gitCloneParam.setRepository(repository);
+        gitCloneParam.setBranch(branch);
+        dockerBuildParam.setGitCloneParam(gitCloneParam);
         dockerCiService.build(dockerBuildParam);
     }
 

@@ -2,10 +2,12 @@ POST http://localhost:8080/ci/docker/build
 Content-Type: application/json
 
 {
-  "repository": "https://gitee.com/synuwxy/event-bus.git",
   "dockerTag": "event-bus:v1",
   "type": "maven",
-  "branch": "master"
+  "gitCloneParam": {
+    "repository": "https://gitee.com/synuwxy/event-bus.git",
+    "branch": "master"
+  }
 }
 
 ###

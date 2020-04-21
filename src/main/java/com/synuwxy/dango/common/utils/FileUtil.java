@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,5 +66,26 @@ public class FileUtil {
     public static void delete(String path) throws IOException {
         File file = new File(path);
         FileUtils.deleteDirectory(file);
+    }
+
+    public static boolean writeFile(String filePath, String context) {
+        File file = new File(filePath);
+        log.info("写入文件 [path: {}, context: {}]", filePath, context);
+        if (!FileUtil.assertionExists(filePath)) {
+            log.error("文件校验失败 file name {}", file.getName());
+            return false;
+        }
+
+        try (PrintWriter printWriter = new PrintWriter(file)){
+            if (null == context) {
+                context = "";
+            }
+            printWriter.print(context);
+            printWriter.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

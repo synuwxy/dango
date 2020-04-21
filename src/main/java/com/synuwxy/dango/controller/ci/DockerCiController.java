@@ -3,8 +3,6 @@ package com.synuwxy.dango.controller.ci;
 import com.synuwxy.dango.api.ci.DockerCiService;
 import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import com.synuwxy.dango.common.ResultObject;
-import com.synuwxy.dango.common.utils.ParamValidUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +23,7 @@ public class DockerCiController {
     }
 
     @PostMapping("/build")
-    public ResultObject<?> build(@Validated @RequestBody DockerBuildParam dockerBuildParam, BindingResult result) {
-        ParamValidUtils.dealBindingResult(result);
+    public ResultObject<?> build(@Validated @RequestBody DockerBuildParam dockerBuildParam) {
         dockerCiService.build(dockerBuildParam);
         return ResultObject.success();
     }

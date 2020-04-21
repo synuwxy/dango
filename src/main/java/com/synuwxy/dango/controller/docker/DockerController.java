@@ -8,8 +8,6 @@ import com.synuwxy.dango.api.docker.model.PushImageParam;
 import com.synuwxy.dango.api.docker.model.SearchContainerParam;
 import com.synuwxy.dango.api.docker.model.SearchImageParam;
 import com.synuwxy.dango.common.ResultObject;
-import com.synuwxy.dango.common.utils.ParamValidUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,15 +51,13 @@ public class DockerController {
     }
 
     @PostMapping("/pull/image")
-    public ResultObject<?> pullImage(@RequestBody @Validated PullImageParam pullImageParam, BindingResult result) {
-        ParamValidUtils.dealBindingResult(result);
+    public ResultObject<?> pullImage(@RequestBody @Validated PullImageParam pullImageParam) {
         dockerService.pull(pullImageParam.getTag());
         return ResultObject.success();
     }
 
     @PostMapping("/push/image")
-    public ResultObject<?> pushImage(@RequestBody @Validated PushImageParam pushImageParam, BindingResult result) {
-        ParamValidUtils.dealBindingResult(result);
+    public ResultObject<?> pushImage(@RequestBody @Validated PushImageParam pushImageParam) {
         dockerService.push(pushImageParam.getTag());
         return ResultObject.success();
     }

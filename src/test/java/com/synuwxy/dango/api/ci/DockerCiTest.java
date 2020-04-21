@@ -1,5 +1,6 @@
 package com.synuwxy.dango.api.ci;
 
+import com.synuwxy.dango.api.git.model.GitCloneParam;
 import com.synuwxy.dango.common.utils.DockerUtil;
 import com.synuwxy.dango.api.ci.model.DockerBuildParam;
 import org.junit.jupiter.api.Test;
@@ -15,10 +16,14 @@ public class DockerCiTest {
     @Test
     public void buildTest() {
         DockerBuildParam dockerBuildParam = new DockerBuildParam();
-        dockerBuildParam.setRepository("https://gitee.com/synuwxy/event-bus.git");
-        dockerBuildParam.setBranch("master");
         dockerBuildParam.setType(DockerUtil.TYPE_MAVEN);
         dockerBuildParam.setDockerTag("test:v1");
+
+        GitCloneParam gitCloneParam = new GitCloneParam();
+        gitCloneParam.setRepository("https://gitee.com/synuwxy/event-bus.git");
+        gitCloneParam.setBranch("master");
+
+        dockerBuildParam.setGitCloneParam(gitCloneParam);
         dockerCiService.build(dockerBuildParam);
     }
 }

@@ -32,14 +32,13 @@ public class DockerCiServiceImpl implements DockerCiService {
         this.dockerfileService = dockerfileService;
     }
 
-    @Async
     @Override
     public void build(DockerBuildParam dockerBuildParam) {
         String workspace = DOCKER_CI_WORKSPACE + "/" + UUIDUtil.generatorId();
         FileUtil.mkdir(workspace);
         try {
             log.info("编译代码");
-            codeBuilder.cleanBuild(dockerBuildParam.getRepository(), dockerBuildParam.getBranch(), dockerBuildParam.getType(), workspace);
+            codeBuilder.cleanBuild(dockerBuildParam.getGitCloneParam(), dockerBuildParam.getType(), workspace);
             log.info("生成dockerfile");
             dockerfileService.generatorDockerfile(workspace, dockerBuildParam.getType());
             log.info("docker 构建");
