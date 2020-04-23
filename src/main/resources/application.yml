@@ -8,4 +8,4 @@ docker:
     workspace: /home/stack
 
 workspace:
-  prefix: /home # 工作目录前缀，需要写入权限
+  prefix: /home # 工作目录前缀，需要读写权限

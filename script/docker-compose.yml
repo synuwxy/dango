@@ -9,3 +9,8 @@ services:
       - "10010:8080"
     entrypoint:
       - MAVEN_NEXUS_REPO=http://maven.aliyun.com/nexus/content/groups/public/
+      - docker_host=127.0.0.1
+      - docker_port=2375
+      - docker_dockerfile_workspace=/home/stack # dockerfile存放位置
+#    volumes:
+#      - /{dockerfile-home}:/home/stack 可以将dockerfile直接映射到宿主机上
