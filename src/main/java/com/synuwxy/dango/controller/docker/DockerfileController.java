@@ -1,10 +1,10 @@
 package com.synuwxy.dango.controller.docker;
 
 import com.synuwxy.dango.api.docker.DockerfileService;
+import com.synuwxy.dango.api.docker.model.CreateDockerfileParam;
 import com.synuwxy.dango.common.ResultObject;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +25,11 @@ public class DockerfileController {
     public ResultObject<List<String>> getDockerfileType() {
         List<String> types = dockerfileService.getDockerfileType();
         return ResultObject.success(types);
+    }
+
+    @PostMapping("/createDockerfile")
+    public ResultObject<?> createDockerfile(@Validated @RequestBody CreateDockerfileParam createDockerfileParam) {
+        dockerfileService.createDockerfile(createDockerfileParam.getType(), createDockerfileParam.getContext());
+        return ResultObject.success();
     }
 }

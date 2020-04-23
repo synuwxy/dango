@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
+
 @SpringBootTest
 public class DockerCiTest {
 
@@ -14,7 +16,7 @@ public class DockerCiTest {
     private DockerCiService dockerCiService;
 
     @Test
-    public void buildTest() {
+    public void buildTest() throws IOException, InterruptedException {
         DockerBuildParam dockerBuildParam = new DockerBuildParam();
         dockerBuildParam.setType(DockerUtil.TYPE_MAVEN);
         dockerBuildParam.setDockerTag("test:v1");

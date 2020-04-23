@@ -49,4 +49,11 @@ public class DockerfileServiceImpl implements DockerfileService {
         }
         return types;
     }
+
+    @Override
+    public void createDockerfile(String type, String context) {
+        String dockerfileParentPath = workspace + "/" + type;
+        FileUtil.mkdir(dockerfileParentPath);
+        FileUtil.writeFile(dockerfileParentPath + "/Dockerfile", context);
+    }
 }

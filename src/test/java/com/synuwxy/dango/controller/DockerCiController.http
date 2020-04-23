@@ -1,3 +1,19 @@
+POST http://localhost:8080/ci/docker/customBuild
+Content-Type: application/json
+
+{
+  "dockerTag": "event-bus:v1",
+  "type": "maven",
+  "gitCloneParam": {
+    "repository": "https://gitee.com/synuwxy/event-bus.git",
+    "branch": "master"
+  },
+  "command": "mvn clean package -Dmaven.test.skip=true",
+  "productName": "event-bus-0.0.1-SNAPSHOT.jar",
+  "productPath": "target"
+}
+
+###
 POST http://localhost:8080/ci/docker/build
 Content-Type: application/json
 

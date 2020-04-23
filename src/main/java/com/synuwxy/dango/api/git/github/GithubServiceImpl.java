@@ -5,12 +5,17 @@ import com.synuwxy.dango.api.cd.DockerCdService;
 import com.synuwxy.dango.api.cd.model.DockerDeployParam;
 import com.synuwxy.dango.api.ci.DockerCiService;
 import com.synuwxy.dango.api.ci.model.DockerBuildParam;
-import com.synuwxy.dango.api.git.model.GitCloneParam;
 import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
+import com.synuwxy.dango.api.git.model.GitCloneParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
+/**
+ * @author wxy
+ */
 @Slf4j
 @Service
 public class GithubServiceImpl implements GithubService {
@@ -26,7 +31,7 @@ public class GithubServiceImpl implements GithubService {
 
     @Async
     @Override
-    public void hookBuild(GithubHookParam githubHookParam, String type) {
+    public void hookBuild(GithubHookParam githubHookParam, String type) throws IOException, InterruptedException {
         log.info("GitHub Hook 构建 gitHubHookParam: {}, type: {}", JSONObject.toJSONString(githubHookParam), type);
         String name = githubHookParam.getRepository().getName();
         String repository = githubHookParam.getRepository().getCloneUrl();
@@ -35,7 +40,7 @@ public class GithubServiceImpl implements GithubService {
         build(repository, dockerTag, type, branch);
     }
 
-    private void build(String repository, String dockerTag, String type, String branch) {
+    private void build(String repository, String dockerTag, String type, String branch) throws IOException, InterruptedException {
         DockerBuildParam dockerBuildParam = new DockerBuildParam();
         dockerBuildParam.setDockerTag(dockerTag);
         dockerBuildParam.setType(type);
@@ -49,7 +54,7 @@ public class GithubServiceImpl implements GithubService {
 
     @Async
     @Override
-    public void hookDeploy(GithubHookParam githubHookParam, String type) {
+    public void hookDeploy(GithubHookParam githubHookParam, String type) throws IOException, InterruptedException {
         String name = githubHookParam.getRepository().getName();
         String repository = githubHookParam.getRepository().getCloneUrl();
         String branch = githubHookParam.getRepository().getDefaultBranch();

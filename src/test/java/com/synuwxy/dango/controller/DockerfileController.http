@@ -1,3 +1,12 @@
+POST http://localhost:8080/dockerfile/createDockerfile
+Content-Type: application/json
+
+{
+  "type": "",
+  "context": ""
+}
+
+###
 GET http://localhost:8080/dockerfile/getDockerfileType
 Accept: application/json
 

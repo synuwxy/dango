@@ -34,6 +34,20 @@ public class SpringBootBuilder implements ScriptBuilder {
         return findProduct(workspace);
     }
 
+    @Override
+    public File customBuild(String command, String productName, String productPath, String workspace) {
+        log.info("自定义构建");
+        if (!scriptHandler.run(workspace, command)) {
+            throw new RuntimeException("构建命令执行失败");
+        }
+        String absolutePath = workspace + "/" + productPath + "/" + productName;
+        File product = new File(absolutePath);
+        if (!product.exists()) {
+            throw new RuntimeException("构建物不存在，绝对路径: " + absolutePath);
+        }
+        return product;
+    }
+
     private File findProduct(String src) {
         CodeType codeType = codeTypeFinder.findCodeType(src);
         log.info("产出物 codeType: {}", JSONObject.toJSONString(codeType));

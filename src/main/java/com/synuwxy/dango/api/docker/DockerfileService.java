@@ -22,4 +22,11 @@ public interface DockerfileService {
      * @return dockerfile 类型列表
      */
     List<String> getDockerfileType();
+
+    /**
+     * 创建dockerfile
+     * @param type 类型
+     * @param context 内容
+     */
+    void createDockerfile(String type, String context);
 }
