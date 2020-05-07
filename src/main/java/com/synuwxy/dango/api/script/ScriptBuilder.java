@@ -18,10 +18,9 @@ public interface ScriptBuilder {
     /**
      * 自定义构建
      * @param command 命令
-     * @param productName 构建物名称
      * @param productPath 构建物相对路径
      * @param workspace 工作路径
      * @return 构建物
      */
-    File customBuild(String command, String productName, String productPath, String workspace);
+    File customBuild(String command, String productPath, String workspace);
 }

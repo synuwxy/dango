@@ -9,11 +9,13 @@ import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.GitUtil;
 import com.synuwxy.dango.common.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author wxy
@@ -60,17 +62,34 @@ public class SpringBootCodeBuilder implements CodeBuilder {
     }
 
     @Override
-    public File customBuild(GitCloneParam gitCloneParam, String command, String productName, String productPath, String workspace) throws IOException, InterruptedException {
+    public File customBuild(GitCloneParam gitCloneParam, String command, String productPath, String workspace) throws IOException, InterruptedException {
         FileUtil.mkdir(workspace);
         workspace = cloneSource(gitCloneParam, workspace);
-        return scriptBuilder.customBuild(command, productName, productPath, workspace);
+        return scriptBuilder.customBuild(command, productPath, workspace);
     }
 
     @Override
-    public void customCleanBuild(GitCloneParam gitCloneParam, String command, String productName, String productPath, String target) throws IOException, InterruptedException {
+    public void customCleanBuild(GitCloneParam gitCloneParam, String command, String productPath, List<String> extraPaths, String target) throws IOException, InterruptedException {
         String workspace = this.CODE_BUILD_WORKSPACE + "/" + UUIDUtil.generatorId();
-        File product = customBuild(gitCloneParam, command, productName, productPath, workspace);
+        File product = customBuild(gitCloneParam, command, productPath, workspace);
         FileCopyUtils.copy(product, new File(target + "/" + product.getName()));
+        String sourceName = GitUtil.getRepositoryName(gitCloneParam.getRepository());
+        moveExtraFiles(extraPaths, target, workspace, sourceName);
         FileUtil.delete(workspace);
+    }
+
+    private void moveExtraFiles(List<String> extraPaths, String target, String workspace, String sourceName) throws IOException {
+        for (String extraPath : extraPaths) {
+            String name = extraPath.substring(extraPath.lastIndexOf("/") == -1 ? 0:extraPath.lastIndexOf("/"));
+            File src = new File(workspace + "/" + sourceName + "/" + extraPath);
+            if (!src.exists()) {
+                continue;
+            }
+            if (src.isDirectory()) {
+                FileUtils.copyDirectoryToDirectory(src, new File(target));
+            } else {
+                FileUtils.copyFile(src, new File(target + "/" + name));
+            }
+        }
     }
 }

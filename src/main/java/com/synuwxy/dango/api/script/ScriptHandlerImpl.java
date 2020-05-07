@@ -60,7 +60,7 @@ public class ScriptHandlerImpl implements ScriptHandler {
     private String createShell(String path, String command) throws IOException {
         log.info("创建脚本文件");
         // 创建脚本
-        String shellName = "run.sh";
+        String shellName = "synuwxy-run.sh";
         FileUtil.mkdir(path);
         String shellPath = path + "/" + shellName;
         File sh = new File(shellPath);

@@ -35,12 +35,12 @@ public class SpringBootBuilder implements ScriptBuilder {
     }
 
     @Override
-    public File customBuild(String command, String productName, String productPath, String workspace) {
+    public File customBuild(String command, String productPath, String workspace) {
         log.info("自定义构建");
         if (!scriptHandler.run(workspace, command)) {
             throw new RuntimeException("构建命令执行失败");
         }
-        String absolutePath = workspace + "/" + productPath + "/" + productName;
+        String absolutePath = workspace + "/" + productPath;
         File product = new File(absolutePath);
         if (!product.exists()) {
             throw new RuntimeException("构建物不存在，绝对路径: " + absolutePath);

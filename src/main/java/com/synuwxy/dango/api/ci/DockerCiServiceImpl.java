@@ -1,7 +1,7 @@
 package com.synuwxy.dango.api.ci;
 
-import com.synuwxy.dango.api.ci.model.DockerCustomBuildParam;
 import com.synuwxy.dango.api.ci.model.DockerBuildParam;
+import com.synuwxy.dango.api.ci.model.DockerCustomBuildParam;
 import com.synuwxy.dango.api.docker.DockerService;
 import com.synuwxy.dango.api.docker.DockerfileService;
 import com.synuwxy.dango.common.config.CommonConfig;
@@ -55,8 +55,8 @@ public class DockerCiServiceImpl implements DockerCiService {
         codeBuilder.customCleanBuild(
                 dockerCustomBuildParam.getGitCloneParam(),
                 dockerCustomBuildParam.getCommand(),
-                dockerCustomBuildParam.getProductName(),
                 dockerCustomBuildParam.getProductPath(),
+                dockerCustomBuildParam.getExtraPaths(),
                 workspace);
         log.info("生成dockerfile");
         dockerfileService.generatorDockerfile(workspace, dockerCustomBuildParam.getType());

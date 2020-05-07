@@ -5,6 +5,8 @@ import lombok.Data;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wxy
@@ -24,9 +26,8 @@ public class DockerCustomBuildParam {
     @NotBlank(message = "构建脚本不能为空")
     private String command;
 
-    @NotBlank(message = "构建物名称不能为空")
-    private String productName;
-
     @NotBlank(message = "构建物相对路径不能为空")
     private String productPath;
+
+    private List<String> extraPaths = new ArrayList<>();
 }
