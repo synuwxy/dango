@@ -65,7 +65,14 @@ public class FileUtil {
 
     public static void delete(String path) throws IOException {
         File file = new File(path);
-        FileUtils.deleteDirectory(file);
+        if (!file.exists()) {
+            return;
+        }
+        if (file.isDirectory()) {
+            FileUtils.deleteDirectory(file);
+        } else {
+            file.deleteOnExit();
+        }
     }
 
     public static boolean writeFile(String filePath, String context) {

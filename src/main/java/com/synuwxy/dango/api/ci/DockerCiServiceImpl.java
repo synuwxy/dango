@@ -43,7 +43,7 @@ public class DockerCiServiceImpl implements DockerCiService {
         log.info("生成dockerfile");
         dockerfileService.generatorDockerfile(workspace, dockerBuildParam.getType());
         log.info("docker 构建");
-        dockerService.build(workspace, dockerBuildParam.getType(), dockerBuildParam.getDockerTag());
+        dockerService.build(workspace, dockerBuildParam.getDockerTag());
         FileUtil.delete(workspace);
     }
 
@@ -61,7 +61,7 @@ public class DockerCiServiceImpl implements DockerCiService {
         log.info("生成dockerfile");
         dockerfileService.generatorDockerfile(workspace, dockerCustomBuildParam.getType());
         log.info("docker 构建");
-        dockerService.build(workspace, dockerCustomBuildParam.getType(), dockerCustomBuildParam.getDockerTag());
+        dockerService.build(workspace, dockerCustomBuildParam.getDockerTag());
         FileUtil.delete(workspace);
     }
 }

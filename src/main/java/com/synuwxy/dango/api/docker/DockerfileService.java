@@ -11,11 +11,11 @@ public interface DockerfileService {
     /**
      * 生成dockerfile
      * 读取相应类型的dockerfile，copy到指定目录下
-     * @param directory 目标目录
+     * @param target 目标目录
      * @param type 类型
      * @throws IOException IO异常
      */
-    void generatorDockerfile(String directory, String type) throws IOException;
+    void generatorDockerfile(String target, String type) throws IOException;
 
     /**
      * 获取现在可以使用的 dockerfile 类型

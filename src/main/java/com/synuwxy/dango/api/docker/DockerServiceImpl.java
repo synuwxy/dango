@@ -31,7 +31,7 @@ public class DockerServiceImpl implements DockerService {
     }
 
     @Override
-    public void build(String workspace, String type, String tag) {
+    public void build(String workspace, String tag) {
         log.info("编译镜像");
         File dir = new File(workspace);
         BuildImageResultCallback callback = new BuildImageResultCallback() {

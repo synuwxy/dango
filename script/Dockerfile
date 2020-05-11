@@ -5,6 +5,8 @@ MAINTAINER <synuwxy>
 # 切换国内源
 RUN sed -i 's#http://archive.ubuntu.com/ubuntu/#http://mirrors.aliyun.com/ubuntu/#' /etc/apt/sources.list;
 
+ENV LANG C.UTF-8
+
 RUN apt-get update && apt-get install -y \
     openjdk-8-jdk \
     gcc \
@@ -19,8 +21,9 @@ RUN apt-get update && apt-get install -y \
 
 COPY ./settings.xml /root/.m2/settings.xml
 
-# Golang 需要自行下载
+# Golang
 ADD ./go1.13.6.linux-amd64.tar.gz /opt
+
 ENV GOLANG_VERSION=1.13.6 \
 	GOROOT=/opt/go \
 	GOPATH=/home/go \
@@ -29,6 +32,7 @@ ENV GOLANG_VERSION=1.13.6 \
 	GOPROXY=https://goproxy.cn \
     PATH=$PATH:/opt/go/bin
 
+# run
 WORKDIR /app
 
 COPY dango.jar /app/

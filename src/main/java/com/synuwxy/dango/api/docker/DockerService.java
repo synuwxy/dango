@@ -18,10 +18,9 @@ public interface DockerService {
      * 构建，产出一个 docker 镜像
      *
      * @param workspace 构建工作目录
-     * @param type      类型
      * @param tag       镜像名称 (name:tag)
      */
-    void build(String workspace, String type, String tag);
+    void build(String workspace, String tag);
 
     /**
      * 启动，启动一个 docker 容器

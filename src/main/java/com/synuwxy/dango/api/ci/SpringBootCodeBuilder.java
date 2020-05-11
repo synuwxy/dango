@@ -1,9 +1,11 @@
 package com.synuwxy.dango.api.ci;
 
 import com.alibaba.fastjson.JSONObject;
+import com.synuwxy.dango.api.code.CodeTypeFinder;
+import com.synuwxy.dango.api.code.model.CodeType;
 import com.synuwxy.dango.api.git.GitService;
 import com.synuwxy.dango.api.git.model.GitCloneParam;
-import com.synuwxy.dango.api.script.ScriptBuilder;
+import com.synuwxy.dango.api.script.ScriptHandler;
 import com.synuwxy.dango.common.config.CommonConfig;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.GitUtil;
@@ -26,13 +28,16 @@ public class SpringBootCodeBuilder implements CodeBuilder {
 
     private final String CODE_BUILD_WORKSPACE;
 
-    private final ScriptBuilder scriptBuilder;
+    private final ScriptHandler scriptHandler;
+
+    private final CodeTypeFinder codeTypeFinder;
 
     private final GitService gitService;
 
-    public SpringBootCodeBuilder(ScriptBuilder scriptBuilder, CommonConfig commonConfig, GitService gitService) {
-        this.scriptBuilder = scriptBuilder;
+    public SpringBootCodeBuilder(CommonConfig commonConfig, ScriptHandler scriptHandler, CodeTypeFinder codeTypeFinder, GitService gitService) {
         this.CODE_BUILD_WORKSPACE = commonConfig.getWorkspacePrefix() + "/code/workspace";
+        this.scriptHandler = scriptHandler;
+        this.codeTypeFinder = codeTypeFinder;
         this.gitService = gitService;
     }
 
@@ -40,7 +45,13 @@ public class SpringBootCodeBuilder implements CodeBuilder {
     public File build(GitCloneParam gitCloneParam, String workspace) throws IOException, InterruptedException {
         FileUtil.mkdir(workspace);
         workspace = cloneSource(gitCloneParam, workspace);
-        return scriptBuilder.build(workspace);
+
+        log.info("开始构建 type: StringBoot");
+        String command = "mvn clean package -Dmaven.test.skip=true";
+        if (!scriptHandler.run(workspace, command)) {
+            throw new RuntimeException("构建失败 type: SpringBoot");
+        }
+        return findProduct(workspace);
     }
 
     private String cloneSource(GitCloneParam gitCloneParam, String workspace) throws IOException, InterruptedException {
@@ -65,7 +76,17 @@ public class SpringBootCodeBuilder implements CodeBuilder {
     public File customBuild(GitCloneParam gitCloneParam, String command, String productPath, String workspace) throws IOException, InterruptedException {
         FileUtil.mkdir(workspace);
         workspace = cloneSource(gitCloneParam, workspace);
-        return scriptBuilder.customBuild(command, productPath, workspace);
+        log.info("自定义构建");
+        if (!scriptHandler.run(workspace, command)) {
+            throw new RuntimeException("构建命令执行失败");
+        }
+        String absolutePath = workspace + "/" + productPath;
+        File product = new File(absolutePath);
+        if (!product.exists()) {
+            throw new RuntimeException("构建物不存在，绝对路径: " + absolutePath);
+        }
+        return product;
+
     }
 
     @Override
@@ -91,5 +112,17 @@ public class SpringBootCodeBuilder implements CodeBuilder {
                 FileUtils.copyFile(src, new File(target + "/" + name));
             }
         }
+    }
+
+    private File findProduct(String src) {
+        CodeType codeType = codeTypeFinder.findCodeType(src);
+        log.info("产出物 codeType: {}", JSONObject.toJSONString(codeType));
+        String productParentPath = codeType.getProductParentPath();
+        String productName = codeType.getProductName();
+        File product = new File(productParentPath + "/" + productName);
+        if (!product.exists()) {
+            throw new RuntimeException("编译产出物不存在");
+        }
+        return product;
     }
 }
