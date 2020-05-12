@@ -6,6 +6,7 @@ import com.github.dockerjava.api.model.*;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
