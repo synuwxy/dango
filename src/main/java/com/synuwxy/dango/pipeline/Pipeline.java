@@ -21,21 +21,22 @@ public class Pipeline {
 
     public void run() {
         Stack<PipelineTask> stack = new Stack<>();
-        while (!taskQueue.isEmpty()) {
-            PipelineTask task = taskQueue.poll();
-            try {
-                task.before();
-                task.process();
-                task.after();
-                if (!task.isForward()) {
-                    break;
-                }
-                stack.push(task);
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                while (!stack.empty()) {
-                    stack.pop().compensate();
-                }
+        try {
+            while (!taskQueue.isEmpty()) {
+                PipelineTask task = taskQueue.poll();
+
+                    task.before();
+                    task.process();
+                    task.after();
+                    if (!task.isForward()) {
+                        break;
+                    }
+                    stack.push(task);
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            while (!stack.empty()) {
+                stack.pop().compensate();
             }
         }
     }

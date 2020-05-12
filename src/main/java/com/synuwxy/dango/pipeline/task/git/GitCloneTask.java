@@ -3,13 +3,10 @@ package com.synuwxy.dango.pipeline.task.git;
 import com.synuwxy.dango.aggreate.git.GitRepo;
 import com.synuwxy.dango.api.git.model.GitCloneParam;
 import com.synuwxy.dango.common.utils.FileUtil;
-import com.synuwxy.dango.common.utils.GitUtil;
 import com.synuwxy.dango.pipeline.PipelineParameterVerification;
 import com.synuwxy.dango.pipeline.PipelineTask;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
 
 /**
  * @author wxy
@@ -23,7 +20,9 @@ public class GitCloneTask implements PipelineTask {
 
     @Override
     public void process() throws Exception {
-        gitRepo.clone(workspace);
+        if (!gitRepo.clone(workspace)) {
+            throw new RuntimeException("clone 失败");
+        }
     }
 
     @Override
@@ -38,18 +37,6 @@ public class GitCloneTask implements PipelineTask {
         pipelineParameterVerification.verify();
         FileUtil.mkdir(workspace);
         log.info("[GitCloneTask] 开始执行");
-    }
-
-    @Override
-    public void compensate() {
-        if (GitUtil.repoExists(workspace, gitRepo.getRepository())) {
-            String repoName = GitUtil.getRepositoryName(gitRepo.getRepository());
-            try {
-                FileUtil.delete(workspace + "/" + repoName);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public static GitCloneTask create(String workspace, GitCloneParam gitCloneParam) {

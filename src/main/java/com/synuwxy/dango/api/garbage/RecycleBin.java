@@ -27,4 +27,8 @@ public class RecycleBin {
         }
         fileBin.clear();
     }
+
+    public static RecycleBin create() {
+        return new RecycleBin();
+    }
 }

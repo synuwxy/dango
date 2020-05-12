@@ -44,6 +44,7 @@ public class GitRepo {
         String finalUrl = formatGitUrl();
 
         String command = "git clone -b " + branch + " " + finalUrl + " " + path + "/" + GitUtil.getRepositoryName(finalUrl);
+        log.info("clone:{}", command);
 
         return Runtime.getRuntime().exec(command).waitFor() == SUCCESS;
     }

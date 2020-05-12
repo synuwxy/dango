@@ -8,14 +8,13 @@ import com.synuwxy.dango.common.config.CommonConfig;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.UUIDUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 /**
  * @author wxy
  */
-@Service
+//@Service
 @Slf4j
 public class DockerCiServiceImpl implements DockerCiService {
 

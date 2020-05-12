@@ -24,7 +24,7 @@ public class DefaultCodeTypeFinder implements CodeTypeFinder {
 
     @Override
     public CodeType findCodeType(String codePath) {
-        log.info("搜索代码产出物");
+        log.info("搜索代码类型");
         File root = new File(codePath);
         if (!root.exists() || !root.isDirectory()) {
             throw new RuntimeException("代码根目录不正确");

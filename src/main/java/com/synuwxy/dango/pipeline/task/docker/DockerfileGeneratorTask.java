@@ -1,5 +1,6 @@
 package com.synuwxy.dango.pipeline.task.docker;
 
+import com.alibaba.fastjson.JSONObject;
 import com.synuwxy.dango.aggreate.docker.dockerfile.Dockerfile;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.pipeline.PipelineTask;

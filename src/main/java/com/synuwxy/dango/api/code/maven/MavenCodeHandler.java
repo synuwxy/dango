@@ -49,7 +49,8 @@ public class MavenCodeHandler implements CodeTypeHandler {
             String productParentPath = getProductParentPath(codePath);
             String productName = getProductName(pom);
             String productExtensionName = getProductExtensionName(pom);
-            return new CodeType(name, productParentPath, productName, productExtensionName);
+            String buildCommand = "mvn clean package -Dmaven.test.skip=true";
+            return new CodeType(name, productParentPath, productName, productExtensionName, buildCommand);
         } catch (IOException | XmlPullParserException e) {
             log.error(e.getMessage());
             return null;

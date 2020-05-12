@@ -1,5 +1,8 @@
 package com.synuwxy.dango.pipeline;
 
+/**
+ * @author wxy
+ */
 public interface PipelineTask {
 
     /**
