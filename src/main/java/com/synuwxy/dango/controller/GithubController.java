@@ -1,8 +1,8 @@
 package com.synuwxy.dango.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.synuwxy.dango.api.git.github.GithubService;
-import com.synuwxy.dango.api.git.github.model.hook.GithubHookParam;
+import com.synuwxy.dango.service.git.github.GithubService;
+import com.synuwxy.dango.service.git.github.model.hook.GithubHookParam;
 import com.synuwxy.dango.common.ResultObject;
 import org.springframework.web.bind.annotation.*;
 

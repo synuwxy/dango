@@ -19,23 +19,8 @@ public class DockerfileRepository {
         this.path = path;
     }
 
-    public List<String> getDockerfileType() {
-        List<String> types = new ArrayList<>();
-        List<File> directories = FileUtil.getDirectories(path);
-        if (directories.isEmpty()) {
-            return types;
-        }
-        for (File directory : directories) {
-            File dockerfile = new File(directory.getPath() + "/Dockerfile");
-            if (dockerfile.exists()) {
-                types.add(directory.getName());
-            }
-        }
-        return types;
-    }
-
     public void createDockerfile(Dockerfile dockerfile) {
-        String dockerfileParentPath = path + "/" + dockerfile.getName();
+        String dockerfileParentPath = path + "/" + dockerfile.getType();
         FileUtil.mkdir(dockerfileParentPath);
         FileUtil.writeFile(dockerfileParentPath + "/Dockerfile", dockerfile.getContext());
     }

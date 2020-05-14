@@ -53,14 +53,14 @@ public class FileUtil {
             try {
                 FileUtil.mkdir(file.getParent());
                 if (!file.createNewFile()) {
-                    return false;
+                    return true;
                 }
             } catch (Exception e) {
                 log.error("文件创建失败 path: {}, message: {}", path, e.getMessage());
                 return false;
             }
         }
-        return true;
+        return false;
     }
 
     public static void delete(String path) throws IOException {
@@ -78,7 +78,7 @@ public class FileUtil {
     public static boolean writeFile(String filePath, String context) {
         File file = new File(filePath);
         log.info("写入文件 [path: {}, context: {}]", filePath, context);
-        if (!FileUtil.assertionExists(filePath)) {
+        if (FileUtil.assertionExists(filePath)) {
             log.error("文件校验失败 file name {}", file.getName());
             return false;
         }

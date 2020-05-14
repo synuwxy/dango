@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.ListImagesCmd;
 import com.github.dockerjava.api.model.Image;
-import com.synuwxy.dango.api.docker.model.SearchImageParam;
+import com.synuwxy.dango.service.docker.model.SearchImageParam;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

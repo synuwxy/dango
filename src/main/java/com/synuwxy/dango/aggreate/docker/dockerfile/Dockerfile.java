@@ -8,6 +8,8 @@ import org.springframework.util.FileCopyUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author wxy
@@ -18,10 +20,10 @@ import java.io.IOException;
 public class Dockerfile {
 
     private String context;
-    private String name;
+    private String type;
 
     public void generatorDockerfile(String workspace, String targetPath) throws IOException {
-        String filePath = workspace + "/" + name + "/Dockerfile";
+        String filePath = workspace + "/" + type + "/Dockerfile";
         File dockerfile = new File(filePath);
         if (!dockerfile.exists()) {
             throw new RuntimeException("Dockerfile文件不存在 path: " + filePath);
@@ -29,5 +31,20 @@ public class Dockerfile {
         FileUtil.mkdir(targetPath);
         File targetDockerfile = new File(targetPath + "/Dockerfile");
         FileCopyUtils.copy(dockerfile, targetDockerfile);
+    }
+
+    public List<String> getDockerfileType(String workspace) {
+        List<File> directories = FileUtil.getDirectories(workspace);
+        if (directories.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<String> types = new ArrayList<>();
+        for (File directory : directories) {
+            File dockerfile = new File(directory.getPath() + "/Dockerfile");
+            if (dockerfile.exists()) {
+                types.add(directory.getName());
+            }
+        }
+        return types;
     }
 }

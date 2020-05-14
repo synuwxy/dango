@@ -124,7 +124,7 @@ public class GitRepo {
 
         File file = new File(path);
 
-        if (!FileUtil.assertionExists(path)) {
+        if (FileUtil.assertionExists(path)) {
             log.error("文件校验失败 file name {}", file.getName());
             return false;
         }

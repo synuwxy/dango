@@ -1,7 +1,7 @@
 package com.synuwxy.dango.controller.cd;
 
-import com.synuwxy.dango.api.cd.DockerCdService;
-import com.synuwxy.dango.api.cd.model.DockerDeployParam;
+import com.synuwxy.dango.service.cd.DockerCdService;
+import com.synuwxy.dango.service.cd.model.DockerDeployParam;
 import com.synuwxy.dango.common.ResultObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;

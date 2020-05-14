@@ -1,7 +1,7 @@
 package com.synuwxy.dango.controller.docker;
 
-import com.synuwxy.dango.api.docker.DockerfileService;
-import com.synuwxy.dango.api.docker.model.CreateDockerfileParam;
+import com.synuwxy.dango.service.docker.DockerfileService;
+import com.synuwxy.dango.service.docker.model.CreateDockerfileParam;
 import com.synuwxy.dango.common.ResultObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

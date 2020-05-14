@@ -1,7 +1,7 @@
 package com.synuwxy.dango.controller.script;
 
-import com.synuwxy.dango.api.script.ScriptService;
-import com.synuwxy.dango.api.script.model.ScriptExecuteParam;
+import com.synuwxy.dango.service.script.ScriptService;
+import com.synuwxy.dango.service.script.model.ScriptExecuteParam;
 import com.synuwxy.dango.common.ResultObject;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
