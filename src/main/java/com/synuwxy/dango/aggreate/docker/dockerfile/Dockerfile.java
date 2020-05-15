@@ -47,4 +47,10 @@ public class Dockerfile {
         }
         return types;
     }
+
+    public void createDockerfile(String workspace) {
+        String dockerfileParentPath = workspace + "/" + type;
+        FileUtil.mkdir(dockerfileParentPath);
+        FileUtil.writeFile(dockerfileParentPath + "/Dockerfile", context);
+    }
 }

@@ -30,7 +30,6 @@ public class DockerImage {
     private String imageFullName;
 
     public void build(String workspace) {
-        log.info("编译镜像");
         File dir = new File(workspace);
         BuildImageResultCallback callback = new BuildImageResultCallback() {
             @Override
@@ -44,6 +43,7 @@ public class DockerImage {
         log.info("构建镜像");
         BuildImageCmd buildImageCmd = dockerClient.buildImageCmd(dir);
         buildImageCmd.withTags(tags).exec(callback).awaitImageId();
+        log.info("构建完成");
     }
 
     public void push() {

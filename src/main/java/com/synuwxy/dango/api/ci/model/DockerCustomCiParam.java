@@ -19,10 +19,10 @@ public class DockerCustomCiParam {
     private GitCloneParam gitCloneParam;
 
     @NotBlank(message = "镜像全称不能为空")
-    private String imageFullName;
+    private String imageName;
 
     @NotBlank(message = "dockerfile类型不能为空")
-    private String dockerfileType;
+    private String type;
 
     @NotBlank(message = "构建脚本不能为空")
     private String command;

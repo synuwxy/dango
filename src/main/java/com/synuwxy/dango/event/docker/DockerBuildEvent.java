@@ -8,11 +8,7 @@ import org.springframework.context.ApplicationEvent;
  */
 @Getter
 public class DockerBuildEvent extends ApplicationEvent {
-
-    private final String workspace;
-
-    public DockerBuildEvent(Object source, String workspace) {
+    public DockerBuildEvent(Object source) {
         super(source);
-        this.workspace = workspace;
     }
 }

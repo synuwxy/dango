@@ -19,10 +19,10 @@ public class DockerCiParam {
     private GitCloneParam gitCloneParam;
 
     @NotBlank(message = "镜像全称不能为空")
-    private String imageFullName;
+    private String imageName;
 
     @NotBlank(message = "dockerfile类型不能为空")
-    private String dockerfileType;
+    private String type;
 
     private List<DockerClientMachine> machines = new ArrayList<>();
 }

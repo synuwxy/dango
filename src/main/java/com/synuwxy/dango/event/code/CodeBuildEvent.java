@@ -9,12 +9,7 @@ import org.springframework.context.ApplicationEvent;
 @Getter
 public class CodeBuildEvent extends ApplicationEvent {
 
-    private final String workspace;
-    private final String targetPath;
-
-    public CodeBuildEvent(Object source, String workspace, String targetPath) {
+    public CodeBuildEvent(Object source) {
         super(source);
-        this.workspace = workspace;
-        this.targetPath = targetPath;
     }
 }

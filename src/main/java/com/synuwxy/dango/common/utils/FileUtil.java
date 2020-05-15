@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,6 +23,17 @@ public class FileUtil {
                 throw new RuntimeException("创建执行文件夹失败");
             }
         }
+    }
+
+    public static void mkdirs(String... paths) {
+        Arrays.asList(paths).forEach(path -> {
+            File dir = new File(path);
+            if (!dir.exists() || !dir.isDirectory()) {
+                if (!dir.mkdirs()) {
+                    throw new RuntimeException("创建执行文件夹失败");
+                }
+            }
+        });
     }
 
     /**

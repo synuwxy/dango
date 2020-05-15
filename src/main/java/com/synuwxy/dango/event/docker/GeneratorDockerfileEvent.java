@@ -8,13 +8,7 @@ import org.springframework.context.ApplicationEvent;
  */
 @Getter
 public class GeneratorDockerfileEvent extends ApplicationEvent {
-
-    private final String workspace;
-    private final String targetPath;
-
-    public GeneratorDockerfileEvent(Object source, String workspace, String targetPath) {
+    public GeneratorDockerfileEvent(Object source) {
         super(source);
-        this.workspace = workspace;
-        this.targetPath = targetPath;
     }
 }

@@ -1,4 +1,4 @@
-package com.synuwxy.dango.api.ci.model;
+package com.synuwxy.dango.event.ci;
 
 import com.github.dockerjava.api.DockerClient;
 import com.synuwxy.dango.service.git.model.GitCloneParam;
@@ -12,9 +12,9 @@ public class DockerCiCommand {
 
     private GitCloneParam gitCloneParam;
 
-    private String imageFullName;
+    private String imageName;
 
-    private String dockerfileType;
+    private String type;
 
     private DockerClient dockerClient;
 

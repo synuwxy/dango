@@ -2,9 +2,9 @@ package com.synuwxy.dango.api.ci;
 
 import com.github.dockerjava.api.DockerClient;
 import com.synuwxy.dango.aggreate.DockerClientMachine;
-import com.synuwxy.dango.api.ci.model.DockerCiCommand;
+import com.synuwxy.dango.event.ci.DockerCiCommand;
 import com.synuwxy.dango.api.ci.model.DockerCiParam;
-import com.synuwxy.dango.api.ci.model.DockerCustomCiCommand;
+import com.synuwxy.dango.event.ci.DockerCustomCiCommand;
 import com.synuwxy.dango.api.ci.model.DockerCustomCiParam;
 import com.synuwxy.dango.event.ci.DockerCiEvent;
 import lombok.extern.slf4j.Slf4j;
