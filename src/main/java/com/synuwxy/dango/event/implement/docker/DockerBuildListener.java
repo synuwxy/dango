@@ -1,6 +1,7 @@
-package com.synuwxy.dango.event.docker;
+package com.synuwxy.dango.event.implement.docker;
 
 import com.synuwxy.dango.aggreate.docker.image.DockerImage;
+import com.synuwxy.dango.event.BuildEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -12,16 +13,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class DockerBuildListener {
 
-    @EventListener(condition = "#dockerBuildEvent.source instanceof T(com.synuwxy.dango.event.docker.DockerBuildCommand)")
-    public void defaultHandle(DockerBuildEvent dockerBuildEvent) {
-        log.info("[DockerBuildEvent] defaultHandle start");
-        DockerBuildCommand dockerBuildCommand = (DockerBuildCommand)dockerBuildEvent.getSource();
+    @EventListener(condition = "#buildEvent.source instanceof T(com.synuwxy.dango.event.implement.docker.DockerBuildCommand)")
+    public void defaultHandle(BuildEvent buildEvent) {
+        log.info("[BuildEvent] DockerBuild start");
+        DockerBuildCommand dockerBuildCommand = (DockerBuildCommand) buildEvent.getSource();
         DockerImage dockerImage = DockerImage.builder()
                 .dockerClient(dockerBuildCommand.getDockerClient())
                 .imageFullName(dockerBuildCommand.getImageFullName())
                 .build();
-        log.info("[DockerBuildEvent] defaultHandle build");
+        log.info("[BuildEvent] build");
         dockerImage.build(dockerBuildCommand.getWorkspace());
-        log.info("[DockerBuildEvent] defaultHandle end");
+        log.info("[BuildEvent] DockerBuild end");
     }
 }

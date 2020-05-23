@@ -1,15 +1,14 @@
-package com.synuwxy.dango.event.ci;
+package com.synuwxy.dango.event.implement.ci;
 
 import com.synuwxy.dango.common.config.CommonConfig;
 import com.synuwxy.dango.common.utils.FileUtil;
 import com.synuwxy.dango.common.utils.UUIDUtil;
-import com.synuwxy.dango.event.code.CodeBuildEvent;
-import com.synuwxy.dango.event.code.CodeCustomBuildCommand;
-import com.synuwxy.dango.event.code.CodeDefaultBuildCommand;
-import com.synuwxy.dango.event.docker.DockerBuildCommand;
-import com.synuwxy.dango.event.docker.DockerBuildEvent;
-import com.synuwxy.dango.event.docker.GeneratorDockerfileCommand;
-import com.synuwxy.dango.event.docker.GeneratorDockerfileEvent;
+import com.synuwxy.dango.event.BuildEvent;
+import com.synuwxy.dango.event.FileOperationsEvent;
+import com.synuwxy.dango.event.implement.code.CodeCustomBuildCommand;
+import com.synuwxy.dango.event.implement.code.CodeDefaultBuildCommand;
+import com.synuwxy.dango.event.implement.docker.DockerBuildCommand;
+import com.synuwxy.dango.event.implement.docker.GeneratorDockerfileCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
@@ -38,12 +37,12 @@ public class DockerCiListener {
     }
 
     @Async
-    @EventListener(condition = "#dockerCiEvent.source instanceof T(com.synuwxy.dango.event.ci.DockerCiCommand)")
-    public void defaultHandle(DockerCiEvent dockerCiEvent) throws IOException {
+    @EventListener(condition = "#buildEvent.source instanceof T(com.synuwxy.dango.event.implement.ci.DockerCiCommand)")
+    public void defaultHandle(BuildEvent buildEvent) throws IOException {
         log.info("[DockerCiEvent] start");
         String codeWorkspace = CODE_WORKSPACE + "/" + UUIDUtil.generatorId();
         String dockerWorkspace = DOCKER_WORKSPACE + "/" + UUIDUtil.generatorId();
-        DockerCiCommand dockerCiCommand = (DockerCiCommand) dockerCiEvent.getSource();
+        DockerCiCommand dockerCiCommand = (DockerCiCommand) buildEvent.getSource();
         CodeDefaultBuildCommand codeDefaultBuildCommand = CodeDefaultBuildCommand.create(
                 dockerCiCommand.getGitCloneParam(),
                 codeWorkspace,
@@ -59,12 +58,12 @@ public class DockerCiListener {
         //创建工作文件夹
         FileUtil.mkdirs(codeWorkspace, dockerWorkspace);
         try {
-            log.info("[DockerCiEvent] 发送 CodeBuildEvent");
-            publisher.publishEvent(new CodeBuildEvent(codeDefaultBuildCommand));
-            log.info("[DockerCiEvent] 发送 GeneratorDockerfileEvent");
-            publisher.publishEvent(new GeneratorDockerfileEvent(generatorDockerfileCommand));
-            log.info("[DockerCiEvent] 发送 DockerBuildEvent");
-            publisher.publishEvent(new DockerBuildEvent(dockerBuildCommand));
+            log.info("[DockerCiEvent] 发送 codeDefaultBuildCommand");
+            publisher.publishEvent(new BuildEvent(codeDefaultBuildCommand));
+            log.info("[DockerCiEvent] 发送 generatorDockerfileCommand");
+            publisher.publishEvent(new FileOperationsEvent(generatorDockerfileCommand));
+            log.info("[DockerCiEvent] 发送 dockerBuildCommand");
+            publisher.publishEvent(new BuildEvent(dockerBuildCommand));
         } catch (Exception e) {
             log.error(e.getMessage());
         } finally {
@@ -74,10 +73,10 @@ public class DockerCiListener {
     }
 
     @Async
-    @EventListener(condition = "#dockerCiEvent.source instanceof T(com.synuwxy.dango.event.ci.DockerCustomCiCommand)")
-    public void customHandle(DockerCiEvent dockerCiEvent) throws IOException {
+    @EventListener(condition = "#buildEvent.source instanceof T(com.synuwxy.dango.event.implement.ci.DockerCustomCiCommand)")
+    public void customHandle(BuildEvent buildEvent) throws IOException {
         log.info("[DockerCiEvent] start");
-        DockerCustomCiCommand dockerCustomCiCommand = (DockerCustomCiCommand) dockerCiEvent.getSource();
+        DockerCustomCiCommand dockerCustomCiCommand = (DockerCustomCiCommand) buildEvent.getSource();
         String codeWorkspace = CODE_WORKSPACE + "/" + UUIDUtil.generatorId();
         String dockerWorkspace = DOCKER_WORKSPACE + "/" + UUIDUtil.generatorId();
         CodeCustomBuildCommand codeCustomBuildCommand = CodeCustomBuildCommand.create(
@@ -99,11 +98,11 @@ public class DockerCiListener {
         FileUtil.mkdirs(codeWorkspace, dockerWorkspace);
         try {
             log.info("[DockerCiEvent] 发送 CodeBuildEvent");
-            publisher.publishEvent(new CodeBuildEvent(codeCustomBuildCommand));
+            publisher.publishEvent(new BuildEvent(codeCustomBuildCommand));
             log.info("[DockerCiEvent] 发送 GeneratorDockerfileEvent");
-            publisher.publishEvent(new GeneratorDockerfileEvent(generatorDockerfileCommand));
+            publisher.publishEvent(new FileOperationsEvent(generatorDockerfileCommand));
             log.info("[DockerCiEvent] 发送 DockerBuildEvent");
-            publisher.publishEvent(new DockerBuildEvent(dockerBuildCommand));
+            publisher.publishEvent(new BuildEvent(dockerBuildCommand));
         } catch (Exception e) {
             log.error(e.getMessage());
         } finally {

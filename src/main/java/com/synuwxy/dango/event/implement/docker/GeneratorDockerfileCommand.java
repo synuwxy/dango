@@ -1,4 +1,4 @@
-package com.synuwxy.dango.event.docker;
+package com.synuwxy.dango.event.implement.docker;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class GeneratorDockerfileCommand {
 
-    private String type;
-    private String workspace;
-    private String targetPath;
+    private final String type;
+    private final String workspace;
+    private final String targetPath;
 
     public static GeneratorDockerfileCommand create(String type, String workspace, String targetPath) {
         return new GeneratorDockerfileCommand(type, workspace, targetPath);

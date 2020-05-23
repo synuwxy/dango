@@ -1,9 +1,10 @@
-package com.synuwxy.dango.event.code;
+package com.synuwxy.dango.event.implement.code;
 
 import com.alibaba.fastjson.JSONObject;
 import com.synuwxy.dango.aggreate.git.GitRepo;
 import com.synuwxy.dango.aggreate.script.Script;
 import com.synuwxy.dango.common.utils.GitUtil;
+import com.synuwxy.dango.event.BuildEvent;
 import com.synuwxy.dango.service.code.CodeTypeFinder;
 import com.synuwxy.dango.service.code.model.CodeType;
 import com.synuwxy.dango.service.git.model.GitCloneParam;
@@ -33,10 +34,10 @@ public class CodeBuildListener {
         this.scriptHandler = scriptHandler;
     }
 
-    @EventListener(condition = "#codeBuildEvent.source instanceof T(com.synuwxy.dango.event.code.CodeDefaultBuildCommand)")
-    public void defaultHandle(CodeBuildEvent codeBuildEvent) throws IOException, InterruptedException {
+    @EventListener(condition = "#buildEvent.source instanceof T(com.synuwxy.dango.event.implement.code.CodeDefaultBuildCommand)")
+    public void defaultHandle(BuildEvent buildEvent) throws IOException, InterruptedException {
         log.info("[CodeBuildEvent] defaultHandle start");
-        CodeDefaultBuildCommand codeDefaultBuildCommand = (CodeDefaultBuildCommand)codeBuildEvent.getSource();
+        CodeDefaultBuildCommand codeDefaultBuildCommand = (CodeDefaultBuildCommand)buildEvent.getSource();
         GitCloneParam gitCloneParam = codeDefaultBuildCommand.getGitCloneParam();
 
         String workspace = cloneSource(gitCloneParam, codeDefaultBuildCommand.getWorkspace());
@@ -81,10 +82,10 @@ public class CodeBuildListener {
         return product;
     }
 
-    @EventListener(condition = "#codeBuildEvent.source instanceof T(com.synuwxy.dango.event.code.CodeCustomBuildCommand)")
-    public void customHandle(CodeBuildEvent codeBuildEvent) throws IOException, InterruptedException {
+    @EventListener(condition = "#buildEvent.source instanceof T(com.synuwxy.dango.event.implement.code.CodeCustomBuildCommand)")
+    public void customHandle(BuildEvent buildEvent) throws IOException, InterruptedException {
         log.info("[CodeBuildEvent] customHandle start");
-        CodeCustomBuildCommand codeCustomBuildCommand = (CodeCustomBuildCommand)codeBuildEvent.getSource();
+        CodeCustomBuildCommand codeCustomBuildCommand = (CodeCustomBuildCommand)buildEvent.getSource();
         GitCloneParam gitCloneParam = codeCustomBuildCommand.getGitCloneParam();
         String command = codeCustomBuildCommand.getCommand();
         String productPath = codeCustomBuildCommand.getProductPath();

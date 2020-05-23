@@ -19,18 +19,25 @@ RUN apt-get update && apt-get install -y \
     maven \
     && rm -rf /var/lib/apt/lists/*
 
-COPY ./settings.xml /root/.m2/settings.xml
+#COPY ./settings.xml /root/.m2/settings.xml
 
-# Golang
-ADD ./go1.13.6.linux-amd64.tar.gz /opt
+# 安装 Golang 环境
+#ADD ./go1.13.6.linux-amd64.tar.gz /opt
+#ENV GOLANG_VERSION=1.13.6 \
+#	GOROOT=/opt/go \
+#	GOPATH=/home/go \
+#	GO111MODULE=on \
+#	WORKSPACE=workspace \
+#	GOPROXY=https://goproxy.cn \
+#    PATH=$PATH:/opt/go/bin
 
-ENV GOLANG_VERSION=1.13.6 \
-	GOROOT=/opt/go \
-	GOPATH=/home/go \
-	GO111MODULE=on \
-	WORKSPACE=workspace \
-	GOPROXY=https://goproxy.cn \
-    PATH=$PATH:/opt/go/bin
+# 安装 nodejs 环境
+#ADD ./node-v12.16.3-linux-x64.tar /opt
+#ENV PATH=$PATH:/opt/node-v12.16.3-linux-x64/bin
+#RUN chmod 777 -R /opt/node-v12.16.3-linux-x64 \
+#    && npm config set registry https://registry.npm.taobao.org \
+#	&& npm install -g yarn@latest \
+#	&& yarn config set registry https://registry.npm.taobao.org
 
 # run
 WORKDIR /app

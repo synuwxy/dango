@@ -2,11 +2,11 @@ package com.synuwxy.dango.api.ci;
 
 import com.github.dockerjava.api.DockerClient;
 import com.synuwxy.dango.aggreate.DockerClientMachine;
-import com.synuwxy.dango.event.ci.DockerCiCommand;
 import com.synuwxy.dango.api.ci.model.DockerCiParam;
-import com.synuwxy.dango.event.ci.DockerCustomCiCommand;
 import com.synuwxy.dango.api.ci.model.DockerCustomCiParam;
-import com.synuwxy.dango.event.ci.DockerCiEvent;
+import com.synuwxy.dango.event.BuildEvent;
+import com.synuwxy.dango.event.implement.ci.DockerCiCommand;
+import com.synuwxy.dango.event.implement.ci.DockerCustomCiCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ApplicationEventPublisher;
@@ -37,13 +37,13 @@ public class DangoCiServiceImpl implements DangoCiService {
             DockerCiCommand dockerCiCommand = new DockerCiCommand();
             BeanUtils.copyProperties(dockerCiParam, dockerCiCommand);
             dockerCiCommand.setDockerClient(dockerClient);
-            publisher.publishEvent(new DockerCiEvent(dockerCiCommand));
+            publisher.publishEvent(new BuildEvent(dockerCiCommand));
         } else {
             for (DockerClientMachine machine:machines) {
                 DockerCiCommand dockerCiCommand = new DockerCiCommand();
                 BeanUtils.copyProperties(dockerCiParam, dockerCiCommand);
                 dockerCiCommand.setDockerClient(machine.createTcpClient());
-                publisher.publishEvent(new DockerCiEvent(dockerCiCommand));
+                publisher.publishEvent(new BuildEvent(dockerCiCommand));
             }
         }
 
@@ -56,13 +56,13 @@ public class DangoCiServiceImpl implements DangoCiService {
             DockerCustomCiCommand dockerCustomCiCommand = new DockerCustomCiCommand();
             BeanUtils.copyProperties(dockerCustomCiParam, dockerCustomCiCommand);
             dockerCustomCiCommand.setDockerClient(dockerClient);
-            publisher.publishEvent(new DockerCiEvent(dockerCustomCiCommand));
+            publisher.publishEvent(new BuildEvent(dockerCustomCiCommand));
         } else {
             for (DockerClientMachine machine:machines) {
                 DockerCustomCiCommand dockerCustomCiCommand = new DockerCustomCiCommand();
                 BeanUtils.copyProperties(dockerCustomCiParam, dockerCustomCiCommand);
                 dockerCustomCiCommand.setDockerClient(machine.createTcpClient());
-                publisher.publishEvent(new DockerCiEvent(dockerCustomCiCommand));
+                publisher.publishEvent(new BuildEvent(dockerCustomCiCommand));
             }
         }
     }

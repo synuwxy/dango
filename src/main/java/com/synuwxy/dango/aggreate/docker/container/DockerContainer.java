@@ -1,13 +1,16 @@
 package com.synuwxy.dango.aggreate.docker.container;
 
+import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerCmd;
+import com.github.dockerjava.api.command.ListContainersCmd;
 import com.github.dockerjava.api.model.*;
+import com.synuwxy.dango.service.docker.model.SearchContainerParam;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -78,13 +81,45 @@ public class DockerContainer {
         dockerClient.startContainerCmd(containerId).exec();
     }
 
-    public void stopContainer() {
+    public void stopContainer(String id) {
         log.info("停止容器 containerId: {}", id);
         dockerClient.stopContainerCmd(id).exec();
     }
 
-    public void removeContainer() {
+    public void removeContainer(String id) {
         log.info("删除容器 containerId: {}", id);
         dockerClient.removeContainerCmd(id).exec();
+    }
+
+    public Container searchContainer(String name) {
+        log.info("查询容器 name: {}", name);
+        List<Container> containers = dockerClient.listContainersCmd()
+                .withNameFilter(Collections.singleton(name))
+                .exec();
+        if (containers.isEmpty()) {
+            log.info("查询结果为空");
+            return null;
+        }
+        return containers.get(0);
+    }
+
+    public List<Container> searchContainers(SearchContainerParam searchContainerParam) {
+        log.info("查询容器列表 searchContainerParam: {}", JSONObject.toJSONString(searchContainerParam));
+        ListContainersCmd listContainersCmd = dockerClient.listContainersCmd();
+
+        if (null != searchContainerParam.getContainerId()) {
+            listContainersCmd.withIdFilter(Collections.singleton(searchContainerParam.getContainerId()));
+        }
+        if (null != searchContainerParam.getContainerName()) {
+            listContainersCmd.withNameFilter(Collections.singleton(searchContainerParam.getContainerName()));
+        }
+        if (null != searchContainerParam.getLabels() && searchContainerParam.getLabels().size() > 0) {
+            listContainersCmd.withLabelFilter(searchContainerParam.getLabels());
+        }
+        if (null != searchContainerParam.getStatus() && searchContainerParam.getStatus().size() > 0) {
+            listContainersCmd.withStatusFilter(searchContainerParam.getStatus());
+        }
+
+        return listContainersCmd.exec();
     }
 }
