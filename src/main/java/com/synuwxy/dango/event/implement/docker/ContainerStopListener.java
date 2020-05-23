@@ -17,9 +17,10 @@ public class ContainerStopListener {
         log.info("[StopEvent] ContainerStop start");
         ContainerStopCommand containerStopCommand = (ContainerStopCommand)stopEvent.getSource();
         DockerContainer dockerContainer = DockerContainer.builder()
+                .id(containerStopCommand.getId())
                 .dockerClient(containerStopCommand.getDockerClient())
                 .build();
-        dockerContainer.stopContainer(containerStopCommand.getId());
+        dockerContainer.stopContainer();
         log.info("[StopEvent] ContainerStop end");
     }
 }

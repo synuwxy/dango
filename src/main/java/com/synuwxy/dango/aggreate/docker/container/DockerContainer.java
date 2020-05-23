@@ -56,7 +56,7 @@ public class DockerContainer {
         return list;
     }
 
-    public void run() {
+    public void startContainer() {
 
         CreateContainerCmd createContainerCmd = dockerClient.createContainerCmd(imageName);
         createContainerCmd.withName(containerName);
@@ -81,12 +81,12 @@ public class DockerContainer {
         dockerClient.startContainerCmd(containerId).exec();
     }
 
-    public void stopContainer(String id) {
+    public void stopContainer() {
         log.info("停止容器 containerId: {}", id);
         dockerClient.stopContainerCmd(id).exec();
     }
 
-    public void removeContainer(String id) {
+    public void removeContainer() {
         log.info("删除容器 containerId: {}", id);
         dockerClient.removeContainerCmd(id).exec();
     }

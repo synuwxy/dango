@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class DockerBuildListener {
 
     @EventListener(condition = "#buildEvent.source instanceof T(com.synuwxy.dango.event.implement.docker.DockerBuildCommand)")
-    public void defaultHandle(BuildEvent buildEvent) {
+    public void handle(BuildEvent buildEvent) {
         log.info("[BuildEvent] DockerBuild start");
         DockerBuildCommand dockerBuildCommand = (DockerBuildCommand) buildEvent.getSource();
         DockerImage dockerImage = DockerImage.builder()
