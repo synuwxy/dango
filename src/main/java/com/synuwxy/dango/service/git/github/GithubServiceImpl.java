@@ -2,7 +2,7 @@ package com.synuwxy.dango.service.git.github;
 
 import com.alibaba.fastjson.JSONObject;
 import com.synuwxy.dango.service.cd.DockerCdService;
-import com.synuwxy.dango.service.cd.model.DockerDeployParam;
+import com.synuwxy.dango.service.cd.model.DockerDeployServiceParam;
 import com.synuwxy.dango.service.ci.DockerCiService;
 import com.synuwxy.dango.service.ci.model.DockerBuildParam;
 import com.synuwxy.dango.service.git.github.model.hook.GithubHookParam;
@@ -66,10 +66,10 @@ public class GithubServiceImpl implements GithubService {
     }
 
     private void deploy(String imageName, String containerName, String networkMode) {
-        DockerDeployParam dockerDeployParam = new DockerDeployParam();
-        dockerDeployParam.setImageName(imageName);
-        dockerDeployParam.setContainerName(containerName);
-        dockerDeployParam.setNetworkMode(networkMode);
-        dockerCdService.slideDeploy(dockerDeployParam);
+        DockerDeployServiceParam dockerDeployServiceParam = new DockerDeployServiceParam();
+        dockerDeployServiceParam.setImageName(imageName);
+        dockerDeployServiceParam.setContainerName(containerName);
+        dockerDeployServiceParam.setNetworkMode(networkMode);
+        dockerCdService.slideDeploy(dockerDeployServiceParam);
     }
 }

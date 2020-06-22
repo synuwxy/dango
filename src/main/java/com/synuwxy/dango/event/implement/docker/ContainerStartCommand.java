@@ -17,24 +17,24 @@ import java.util.List;
 public class ContainerStartCommand {
     private final String containerName;
     private final String imageName;
-    private final List<DockerContainerPort> dockerContainerPorts;
-    private final List<DockerContainerVolume> dockerContainerVolumes;
-    private final List<DockerContainerEnv> dockerContainerEnvs;
+    private final List<DockerContainerPort> containerPorts;
+    private final List<DockerContainerVolume> containerVolumes;
+    private final List<DockerContainerEnv> containerEnvs;
     private final DockerClient dockerClient;
 
     public static ContainerStartCommand create(
             String containerName,
             String imageName,
-            List<DockerContainerPort> dockerContainerPorts,
-            List<DockerContainerVolume> dockerContainerVolumes,
-            List<DockerContainerEnv> dockerContainerEnvs,
+            List<DockerContainerPort> containerPorts,
+            List<DockerContainerVolume> containerVolumes,
+            List<DockerContainerEnv> containerEnvs,
             DockerClient dockerClient) {
         return new ContainerStartCommand(
                 containerName,
                 imageName,
-                dockerContainerPorts,
-                dockerContainerVolumes,
-                dockerContainerEnvs,
+                containerPorts,
+                containerVolumes,
+                containerEnvs,
                 dockerClient);
     }
 }

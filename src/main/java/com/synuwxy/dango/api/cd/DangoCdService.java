@@ -1,6 +1,6 @@
 package com.synuwxy.dango.api.cd;
 
-import com.synuwxy.dango.service.cd.model.DockerDeployParam;
+import com.synuwxy.dango.api.cd.model.DockerDeployParam;
 
 /**
  * @author wxy

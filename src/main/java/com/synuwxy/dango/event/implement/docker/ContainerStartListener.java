@@ -19,9 +19,9 @@ public class ContainerStartListener {
         DockerContainer dockerContainer = DockerContainer.builder()
                 .containerName(containerStartCommand.getContainerName())
                 .imageName(containerStartCommand.getImageName())
-                .dockerContainerEnvs(containerStartCommand.getDockerContainerEnvs())
-                .dockerContainerPorts(containerStartCommand.getDockerContainerPorts())
-                .dockerContainerVolumes(containerStartCommand.getDockerContainerVolumes())
+                .containerEnvs(containerStartCommand.getContainerEnvs())
+                .containerPorts(containerStartCommand.getContainerPorts())
+                .containerVolumes(containerStartCommand.getContainerVolumes())
                 .dockerClient(containerStartCommand.getDockerClient())
                 .build();
 

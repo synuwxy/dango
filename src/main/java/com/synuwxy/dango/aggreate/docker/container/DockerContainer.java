@@ -24,15 +24,15 @@ public class DockerContainer {
     private final String containerName;
     private final String imageName;
     private final String networkMode = "none";
-    private final List<DockerContainerPort> dockerContainerPorts;
-    private final List<DockerContainerVolume> dockerContainerVolumes;
-    private final List<DockerContainerEnv> dockerContainerEnvs;
+    private final List<DockerContainerPort> containerPorts;
+    private final List<DockerContainerVolume> containerVolumes;
+    private final List<DockerContainerEnv> containerEnvs;
 
     private List<PortBinding> getPortBindings() {
         List<PortBinding> list = new ArrayList<>();
-        dockerContainerPorts.forEach(dockerContainerPort -> {
-            PortBinding portBinding = new PortBinding(Ports.Binding.bindPort(dockerContainerPort.getOutsidePort()),
-                    ExposedPort.tcp(dockerContainerPort.getInsidePort()));
+        containerPorts.forEach(containerPort -> {
+            PortBinding portBinding = new PortBinding(Ports.Binding.bindPort(containerPort.getOutsidePort()),
+                    ExposedPort.tcp(containerPort.getInsidePort()));
             list.add(portBinding);
         });
         return list;
@@ -40,19 +40,19 @@ public class DockerContainer {
 
     private List<ExposedPort> getExposedPorts() {
         List<ExposedPort> list = new ArrayList<>();
-        dockerContainerPorts.forEach(dockerContainerPort -> list.add(ExposedPort.tcp(dockerContainerPort.getInsidePort())));
+        containerPorts.forEach(containerPort -> list.add(ExposedPort.tcp(containerPort.getInsidePort())));
         return list;
     }
 
     private List<Volume> getVolumes() {
         List<Volume> list = new ArrayList<>();
-        dockerContainerVolumes.forEach(dockerContainerVolume -> list.add(new Volume(dockerContainerVolume.generator())));
+        containerVolumes.forEach(containerVolume -> list.add(new Volume(containerVolume.generator())));
         return list;
     }
 
     private List<String> getEnvs() {
         List<String> list = new ArrayList<>();
-        dockerContainerEnvs.forEach(dockerContainerEnv -> list.add(dockerContainerEnv.generator()));
+        containerEnvs.forEach(containerEnv -> list.add(containerEnv.generator()));
         return list;
     }
 

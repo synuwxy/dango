@@ -2,7 +2,7 @@ package com.synuwxy.dango.service.cd;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.dockerjava.api.model.Container;
-import com.synuwxy.dango.service.cd.model.DockerDeployParam;
+import com.synuwxy.dango.service.cd.model.DockerDeployServiceParam;
 import com.synuwxy.dango.service.docker.DockerService;
 import com.synuwxy.dango.service.docker.model.*;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +25,15 @@ public class DockerCdServiceImpl implements DockerCdService {
     }
 
     @Override
-    public void deploy(DockerDeployParam dockerDeployParam) {
-        List<ContainerPort> containerPorts = dockerDeployParam.getContainerPorts();
-        List<ContainerVolume> containerVolumes = dockerDeployParam.getContainerVolumes();
-        List<ContainerEnv> containerEnvs = dockerDeployParam.getContainerEnvs();
+    public void deploy(DockerDeployServiceParam dockerDeployServiceParam) {
+        List<ContainerPort> containerPorts = dockerDeployServiceParam.getContainerPorts();
+        List<ContainerVolume> containerVolumes = dockerDeployServiceParam.getContainerVolumes();
+        List<ContainerEnv> containerEnvs = dockerDeployServiceParam.getContainerEnvs();
 
-        ContainerModel containerModel = new ContainerModel(dockerDeployParam.getContainerName(), dockerDeployParam.getImageName());
+        ContainerModel containerModel = new ContainerModel(dockerDeployServiceParam.getContainerName(), dockerDeployServiceParam.getImageName());
 
-        if (verifyNetworkMode(dockerDeployParam.getNetworkMode())) {
-            containerModel.setNetWorkMode(dockerDeployParam.getNetworkMode());
+        if (verifyNetworkMode(dockerDeployServiceParam.getNetworkMode())) {
+            containerModel.setNetWorkMode(dockerDeployServiceParam.getNetworkMode());
         }
 
         if (null != containerPorts) {
@@ -50,9 +50,9 @@ public class DockerCdServiceImpl implements DockerCdService {
     }
 
     @Override
-    public void slideDeploy(DockerDeployParam dockerDeployParam) {
-        cleanContainer(dockerDeployParam.getContainerName());
-        deploy(dockerDeployParam);
+    public void slideDeploy(DockerDeployServiceParam dockerDeployServiceParam) {
+        cleanContainer(dockerDeployServiceParam.getContainerName());
+        deploy(dockerDeployServiceParam);
     }
 
     /**

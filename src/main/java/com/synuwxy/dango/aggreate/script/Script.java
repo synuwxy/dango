@@ -50,6 +50,7 @@ public class Script {
             return false;
         } finally {
             process.destroy();
+            deleteShell(workspace);
         }
     }
 
@@ -72,5 +73,13 @@ public class Script {
             fos.flush();
         }
         return shellPath;
+    }
+
+    private void deleteShell(String workspace) {
+        log.info("删除脚本文件");
+        String shellName = "synuwxy-run.sh";
+        String shellPath = workspace + "/" + shellName;
+        File sh = new File(shellPath);
+        sh.deleteOnExit();
     }
 }

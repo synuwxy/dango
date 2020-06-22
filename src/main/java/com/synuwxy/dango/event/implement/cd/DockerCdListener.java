@@ -31,9 +31,9 @@ public class DockerCdListener {
         ContainerStartCommand containerStartCommand = ContainerStartCommand.create(
                 dockerCdCommand.getContainerName(),
                 dockerCdCommand.getImageName(),
-                dockerCdCommand.getDockerContainerPorts(),
-                dockerCdCommand.getDockerContainerVolumes(),
-                dockerCdCommand.getDockerContainerEnvs(),
+                dockerCdCommand.getContainerPorts(),
+                dockerCdCommand.getContainerVolumes(),
+                dockerCdCommand.getContainerEnvs(),
                 dockerCdCommand.getDockerClient());
 
         publisher.publishEvent(new CleanEvent(containerCleanCommand));
