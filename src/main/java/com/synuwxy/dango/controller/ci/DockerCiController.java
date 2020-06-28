@@ -1,8 +1,8 @@
 package com.synuwxy.dango.controller.ci;
 
-import com.synuwxy.dango.api.ci.DangoCiService;
-import com.synuwxy.dango.api.ci.model.DockerCiParam;
-import com.synuwxy.dango.api.ci.model.DockerCustomCiParam;
+import com.synuwxy.dango.ddd.api.ci.DangoCiService;
+import com.synuwxy.dango.ddd.api.ci.model.DockerCiParam;
+import com.synuwxy.dango.ddd.api.ci.model.DockerCustomCiParam;
 import com.synuwxy.dango.common.ResultObject;
 import com.synuwxy.dango.service.ci.DockerCiService;
 import com.synuwxy.dango.service.ci.model.DockerBuildParam;

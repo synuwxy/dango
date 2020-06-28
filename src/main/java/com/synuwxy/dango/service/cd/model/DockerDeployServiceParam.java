@@ -1,13 +1,12 @@
 package com.synuwxy.dango.service.cd.model;
 
-import com.synuwxy.dango.aggreate.DockerClientMachine;
+import com.synuwxy.dango.ddd.aggreate.DockerClientMachine;
 import com.synuwxy.dango.service.docker.model.ContainerEnv;
 import com.synuwxy.dango.service.docker.model.ContainerPort;
 import com.synuwxy.dango.service.docker.model.ContainerVolume;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
