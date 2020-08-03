@@ -15,7 +15,7 @@ public class BaseExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler({IOException.class, InterruptedException.class, RuntimeException.class})
-    public ResultObject<?> handle(Exception e) {
+    public ResultObject handle(Exception e) {
         e.printStackTrace();
         return ResultObject.error(e.getMessage());
     }

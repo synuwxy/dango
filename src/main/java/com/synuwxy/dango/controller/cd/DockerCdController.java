@@ -22,13 +22,13 @@ public class DockerCdController {
     }
 
     @PostMapping("/deploy")
-    public ResultObject<?> deploy(@Validated @RequestBody DockerDeployServiceParam dockerDeployServiceParam) {
+    public ResultObject deploy(@Validated @RequestBody DockerDeployServiceParam dockerDeployServiceParam) {
         dockerCdService.deploy(dockerDeployServiceParam);
         return ResultObject.success();
     }
 
     @PostMapping("/slideDeploy")
-    public ResultObject<?> slideDeploy(@Validated @RequestBody DockerDeployServiceParam dockerDeployServiceParam) {
+    public ResultObject slideDeploy(@Validated @RequestBody DockerDeployServiceParam dockerDeployServiceParam) {
         dockerCdService.slideDeploy(dockerDeployServiceParam);
         return ResultObject.success();
     }

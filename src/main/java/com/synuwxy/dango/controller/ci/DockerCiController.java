@@ -1,9 +1,9 @@
 package com.synuwxy.dango.controller.ci;
 
+import com.synuwxy.dango.common.ResultObject;
 import com.synuwxy.dango.ddd.api.ci.DangoCiService;
 import com.synuwxy.dango.ddd.api.ci.model.DockerCiParam;
 import com.synuwxy.dango.ddd.api.ci.model.DockerCustomCiParam;
-import com.synuwxy.dango.common.ResultObject;
 import com.synuwxy.dango.service.ci.DockerCiService;
 import com.synuwxy.dango.service.ci.model.DockerBuildParam;
 import com.synuwxy.dango.service.ci.model.DockerCustomBuildParam;
@@ -31,25 +31,25 @@ public class DockerCiController {
     }
 
     @PostMapping("/build")
-    public ResultObject<?> build(@Validated @RequestBody DockerBuildParam dockerBuildParam) throws IOException, InterruptedException {
+    public ResultObject build(@Validated @RequestBody DockerBuildParam dockerBuildParam) throws IOException, InterruptedException {
         dockerCiService.build(dockerBuildParam);
         return ResultObject.success();
     }
 
     @PostMapping("/customBuild")
-    public ResultObject<?> customBuild(@Validated @RequestBody DockerCustomBuildParam dockerCustomBuildParam) throws IOException, InterruptedException {
+    public ResultObject customBuild(@Validated @RequestBody DockerCustomBuildParam dockerCustomBuildParam) throws IOException, InterruptedException {
         dockerCiService.customBuild(dockerCustomBuildParam);
         return ResultObject.success();
     }
 
     @PostMapping("/event/build")
-    public ResultObject<?> eventBuild(@Validated @RequestBody DockerCiParam dockerCiParam) {
+    public ResultObject eventBuild(@Validated @RequestBody DockerCiParam dockerCiParam) {
         dangoCiService.build(dockerCiParam);
         return ResultObject.success();
     }
 
     @PostMapping("/event/customBuild")
-    public ResultObject<?> eventCustomBuild(@Validated @RequestBody DockerCustomCiParam dockerCustomCiParam) {
+    public ResultObject eventCustomBuild(@Validated @RequestBody DockerCustomCiParam dockerCustomCiParam) {
         dangoCiService.customBuild(dockerCustomCiParam);
         return ResultObject.success();
     }

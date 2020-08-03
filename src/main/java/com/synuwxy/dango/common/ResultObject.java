@@ -8,13 +8,13 @@ import java.io.Serializable;
  * @author wxy
  */
 @Data
-public class ResultObject<T> implements Serializable {
+public class ResultObject implements Serializable {
 
     private String status;
 
     private String message;
 
-    private T data;
+    private Object data;
 
     public final static String ERROR = "-1";
 
@@ -23,31 +23,21 @@ public class ResultObject<T> implements Serializable {
     private ResultObject() {
     }
 
-    private ResultObject(String status, String message, T data) {
-        this.status = status;
-        this.message = message;
-        this.data = data;
-    }
-
-    public static <T> ResultObject<T> instance(String status, String message, T data) {
-        return new ResultObject<>(status, message, data);
-    }
-
-    public static ResultObject<Object> error(String message) {
-        ResultObject<Object> resultObject = new ResultObject<>();
+    public static ResultObject error(String message) {
+        ResultObject resultObject = new ResultObject();
         resultObject.setStatus(ERROR);
         resultObject.setMessage(message);
         return resultObject;
     }
 
-    public static ResultObject<Object> success() {
-        ResultObject<Object> resultObject = new ResultObject<>();
+    public static ResultObject success() {
+        ResultObject resultObject = new ResultObject();
         resultObject.setStatus(SUCCESS);
         return resultObject;
     }
 
-    public static <T> ResultObject<T> success(T data) {
-        ResultObject<T> resultObject = new ResultObject<>();
+    public static ResultObject success(Object data) {
+        ResultObject resultObject = new ResultObject();
         resultObject.setStatus(SUCCESS);
         resultObject.setData(data);
         return resultObject;

@@ -22,14 +22,14 @@ public class GithubController {
     }
 
     @PostMapping("/hook/build/{type}")
-    public ResultObject<?> hookBuild(@RequestBody String payload, @PathVariable("type") String type) throws IOException, InterruptedException {
+    public ResultObject hookBuild(@RequestBody String payload, @PathVariable("type") String type) throws IOException, InterruptedException {
         GithubHookParam githubHookParam = JSONObject.parseObject(payload, GithubHookParam.class);
         githubService.hookBuild(githubHookParam, type);
         return ResultObject.success();
     }
 
     @PostMapping("/hook/deploy/{type}")
-    public ResultObject<?> hookDeploy(@RequestBody String payload, @PathVariable("type") String type) throws IOException, InterruptedException {
+    public ResultObject hookDeploy(@RequestBody String payload, @PathVariable("type") String type) throws IOException, InterruptedException {
         GithubHookParam githubHookParam = JSONObject.parseObject(payload, GithubHookParam.class);
         githubService.hookDeploy(githubHookParam, type);
         return ResultObject.success();

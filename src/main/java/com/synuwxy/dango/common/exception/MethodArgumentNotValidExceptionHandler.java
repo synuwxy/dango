@@ -18,7 +18,7 @@ public class MethodArgumentNotValidExceptionHandler {
 
     @ResponseBody
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultObject<?> handle(MethodArgumentNotValidException e) {
+    public ResultObject handle(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
         if (bindingResult.hasErrors()) {
             List<ObjectError> list = bindingResult.getAllErrors();

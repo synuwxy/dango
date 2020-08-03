@@ -24,7 +24,7 @@ public class ScriptController {
     }
 
     @PostMapping("/exec")
-    public ResultObject<?> exec(ScriptExecuteParam scriptExecuteParam) throws IOException {
+    public ResultObject exec(ScriptExecuteParam scriptExecuteParam) throws IOException {
         return scriptService.exec(scriptExecuteParam)?ResultObject.success("执行成功"):ResultObject.error("执行失败");
     }
 }

@@ -22,13 +22,13 @@ public class DockerfileController {
     }
 
     @GetMapping("/getDockerfileType")
-    public ResultObject<List<String>> getDockerfileType() {
+    public ResultObject getDockerfileType() {
         List<String> types = dockerfileService.getDockerfileType();
         return ResultObject.success(types);
     }
 
     @PostMapping("/createDockerfile")
-    public ResultObject<?> createDockerfile(@Validated @RequestBody CreateDockerfileParam createDockerfileParam) {
+    public ResultObject createDockerfile(@Validated @RequestBody CreateDockerfileParam createDockerfileParam) {
         dockerfileService.createDockerfile(createDockerfileParam.getType(), createDockerfileParam.getContext());
         return ResultObject.success();
     }
