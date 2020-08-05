@@ -14,7 +14,6 @@ public class ContainerVolume {
         this.insidePath = insideVolume;
         this.outsidePath = outsideVolume;
     }
-
     public String generator() {
         return this.outsidePath + ":" + this.insidePath;
     }
