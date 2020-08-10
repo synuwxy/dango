@@ -1,5 +1,6 @@
 package com.synuwxy.dango.aggreate.task.docker.container;
 
+import com.github.dockerjava.api.DockerClient;
 import com.synuwxy.dango.aggreate.task.Task;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Builder
 public class StopContainerTask implements Task {
-    @Override
-    public void run() throws Exception {
+    private final DockerClient dockerClient;
+    private final String id;
 
+    @Override
+    public void run() {
+        log.info("停止容器 containerId: {}", id);
+        dockerClient.stopContainerCmd(id).exec();
     }
 }

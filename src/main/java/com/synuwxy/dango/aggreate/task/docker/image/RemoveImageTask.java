@@ -1,5 +1,6 @@
 package com.synuwxy.dango.aggreate.task.docker.image;
 
+import com.github.dockerjava.api.DockerClient;
 import com.synuwxy.dango.aggreate.task.Task;
 import lombok.Builder;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Builder
 public class RemoveImageTask implements Task {
-    @Override
-    public void run() throws Exception {
 
+    private final DockerClient dockerClient;
+    private final String id;
+
+    @Override
+    public void run() {
+        log.info("删除镜像 imageId: {}", id);
+        dockerClient.removeImageCmd(id).exec();
     }
 }
