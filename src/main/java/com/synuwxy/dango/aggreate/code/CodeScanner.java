@@ -7,8 +7,8 @@ public interface CodeScanner {
 
     /**
      * 分析代码
-     * @param root 代码根目录
+     * @param path 代码根目录
      * @return 代码分析结果
      */
-    CodeAnalysisResult analysis(String root);
+    CodeAnalysisResult analysis(String path);
 }
