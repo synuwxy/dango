@@ -1,5 +1,7 @@
 package com.synuwxy.dango.aggreate.code;
 
+import org.apache.commons.codec.language.bm.Lang;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +10,13 @@ import java.util.Map;
  * @author wxy
  */
 public class DefaultCodeScanner implements CodeScanner {
-
+    /**
+     * 已注册的代码语言类型
+     */
     private final Map<Language, String> languageMap = new HashMap<>();
+    /**
+     * 扩展名集合
+     */
     private final Map<String, Integer> extensionMap = new HashMap<>();
 
     public void register(Language language, String extension) {
@@ -21,7 +28,25 @@ public class DefaultCodeScanner implements CodeScanner {
         CodeAnalysisResult codeAnalysisResult = new CodeAnalysisResult();
         File root = new File(path);
         collectExtension(root);
-        return null;
+        Language lang = Language.OTHER;
+        if (languageMap.isEmpty() || extensionMap.isEmpty()) {
+            return codeAnalysisResult;
+        }
+
+        // 以扩展名最多的文件判断代码的类型
+        for (Map.Entry<String, Integer> extensionEntry : extensionMap.entrySet()) {
+            int sum = -1;
+            for (Map.Entry<Language, String> languageEntry : languageMap.entrySet()) {
+                if (extensionEntry.getKey().equals(languageEntry.getValue())) {
+                    if (extensionEntry.getValue() > sum) {
+                        sum = extensionEntry.getValue();
+                        lang = languageEntry.getKey();
+                    }
+                }
+            }
+        }
+        codeAnalysisResult.setLanguage(lang);
+        return codeAnalysisResult;
     }
 
     private void collectExtension(File root) {
