@@ -1,6 +1,5 @@
 package com.synuwxy.dango.service.cd.model;
 
-import com.synuwxy.dango.ddd.aggreate.DockerClientMachine;
 import com.synuwxy.dango.service.docker.model.ContainerEnv;
 import com.synuwxy.dango.service.docker.model.ContainerPort;
 import com.synuwxy.dango.service.docker.model.ContainerVolume;
